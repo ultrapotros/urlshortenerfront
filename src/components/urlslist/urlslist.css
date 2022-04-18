@@ -1,0 +1,34 @@
+.personal-urls {
+    width: 90%;
+    margin: 0 auto;
+}
+.urls-list {
+    list-style: none;
+    width: 100%;
+    /* display: grid;
+    grid-template-columns: repeat(5,1fr); */
+}
+.urls-list-row {
+    display: grid;
+    /* grid-template-columns: repeat(5,1fr); */
+    grid-template-columns: repeat( auto-fit, minmax(100px, 1fr) );
+    place-items: center;
+}
+.urls-list-buttons {
+    display: flex;
+    place-items: center;
+}
+.urls-list-buttons button {
+    font-size: .8rem;
+}
+.modal {
+    position: absolute;
+    display: flex;
+    top: 40vh;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+.container {
+    justify-content: flex-start;
+}

@@ -1,0 +1,28 @@
+
+.top-header {
+    width: 10%;
+    height: 10vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    /* background-color: var(--headerbackground); */
+    margin: auto;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-bottom: 3vh;
+}
+.header-nav {
+    margin-right: 5%;
+    display: flex;
+    column-gap: 2rem;
+}
+.header-nav a {
+   /*  border: 1px solid var(--color7); */
+    background-color: var(--headerbuttons);
+    padding:0.8rem 1rem;
+    border-radius: 10px;
+}
+.header-nav a:hover {
+    transform: scale(1.1);
+}
