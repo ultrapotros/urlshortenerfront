@@ -2,6 +2,11 @@
     width: 90%;
     margin: 0 auto;
 }
+.personal-urls--tittles {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(100px, 1fr) );
+    text-align: center;
+}
 .urls-list {
     list-style: none;
     width: 100%;
@@ -13,6 +18,7 @@
     /* grid-template-columns: repeat(5,1fr); */
     grid-template-columns: repeat( auto-fit, minmax(100px, 1fr) );
     place-items: center;
+    min-height: fit-content;
 }
 .urls-list-buttons {
     display: flex;
@@ -31,4 +37,7 @@
 }
 .container {
     justify-content: flex-start;
+}
+.urls-main--title {
+    font-size: clamp(1.6rem, 3.2vw + 1.2rem, 7rem);
 }

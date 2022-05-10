@@ -1,0 +1,64 @@
+{
+    "header": {
+        "register":"Register",
+        "login":"Login",
+        "profile":"Profile",
+        "logout":"Logout"
+    },
+    "shortener": {
+        "titlelogged": "Introduce the url to short",
+        "titleunlogged": "Sign in and manage your urls"
+    },
+    "personalmain": {
+        "title":"My Data",
+        "name": "Username: "
+    },
+    "urlslist": {
+        "title":"My Urls",
+        "longurls": "Original Url/s",
+        "shorturls":"Shortened Url/s",
+        "clicks": "Views"
+    },
+    "form": {
+        "username":"Username",
+        "emailcheck":"Repeat email",
+        "password":"Password",
+        "newpassword":"New password",
+        "passwordcheck":"Repeat password",
+        "language":"Language",
+        "language_es":"Spanish",
+        "language_en":"English",
+        "confirmation_code":"Confirmation code",
+        "modify":"Customize your url",
+        "forgotten_password":"He olvidado la contraseña"
+    },
+    "buttons": {
+        "send":"Send",
+        "back":"Back",
+        "modify":"Modify",
+        "delete":"Delete",
+        "myurls":"My urls",
+        "shorturl":"Short url",
+        "copy":"copy",
+        "close":"close"
+    },
+    "formserrors": {
+        "required":"Required field",
+        "maxlength":"Max size ",
+        "minlength":"Min size ",
+        "wrongformat":"Wrong format",
+        "emailnotmatch":"Emails do not match",
+        "passwordnotmatch":"Passwords do not match"
+    },
+    "modals":{
+        "alreadyshortened":"You have already shortened that url",
+        "shortened":"This is your url shortened: https://www.",
+        "deleted":"Entry deleted",
+        "nouser":"User not registered",
+        "wrongpassword":"Wrong password",
+        "somewrong":"Something went wrong",
+        "wrongcode":"Wrong code",
+        "confirmation_code":"Introduce the confirmation code received in your email",
+        "user_exists":"Already exists an user with that username"
+    }
+}

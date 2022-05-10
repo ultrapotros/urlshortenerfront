@@ -1,50 +1,42 @@
 import './profile.css'
-import getUserUrls from '../helpers/getUserUrls';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext , useEffect } from 'react';
 import { Context } from '../../App';
-
-
+import { Logged } from '../../App';
+import { useTranslation } from "react-i18next";
 import { useForm } from 'react-hook-form';
+import { isSession } from '../helpers/cognito';
+import { Auth } from 'aws-amplify';
 
 export default function Profile() {
   const [user, setUser] = useContext(Context);
+  const [ logged, setLogged ] = useContext(Logged);
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
-  console.log(user);
-  
-  const handleurls = async ()=> {
-    await getUserUrls(user.username)
-      .then((data)=> {
-        console.log(data.data.userurls)
-      })
-      .catch((error)=> {
-        console.log(error)
-      })
-  }
+  const [t] = useTranslation("global");
+   console.log(user);
+      const handleButton = async () => {
+        navigate(`/${user.username}/urls`)
+    }
 
-  const loggedUserJSON = window.localStorage.getItem('userlogged');
-  const loggedUser= JSON.parse(loggedUserJSON);
-  const userdata = {                      
-      username: user.username,
-      email: user.email,
-      premium: user.premium,
-      password: user.password,
-  }
-
-  const handleButton = ()=> {
-    navigate(`/${userdata.username}/urls`)
-  }
  
-/*     const loggedUserJSON = window.localStorage.getItem('userlogged');
-    const loggedUser= JSON.parse(loggedUserJSON);
-    const userdata = {                      
-        username: loggedUser.username,
-        email: loggedUser.email,
-        premium: loggedUser.premium,
-        password: loggedUser.password,
-    } */
-    console.log(userdata.username)
+  async function iscurrentSession() {
+    try {
+        await Auth.currentSession();//checks there's a valid user logged and if its session is still valid
+        const userdatas = await Auth.currentUserInfo();//gets logged users data
+        console.log(userdatas)
+        setUser({username:userdatas.username, email:userdatas.attributes.email})
+        setLogged(true);
+    } catch (error) {
+        setUser({})
+    }
+  }
+  console.log(user)
+  useEffect(() => {
+    iscurrentSession();
+  }, [])
+
+
  
   return (
     
@@ -52,12 +44,12 @@ export default function Profile() {
       {/* <Header /> */}
       <main className='personal-data'>
         <h1 className='tittle'>
-          Mis Datos
+        {t("personalmain.title")}
         </h1>
-        <p>Nombre de usuario: {userdata.username}</p>
-        <p>Email: {userdata.email}</p>
-        <button onClick={handleButton} >Mis Urls</button>
-        <button onClick={()=>navigate('/')} >Recortar Url</button>
+        <p>{t("personalmain.name")}: {user.username}</p>
+        <p>Email: {user.email}</p>
+        <button className="nbutton"onClick={handleButton} >{t("buttons.myurls")}</button>
+        <button className="nbutton"onClick={()=>navigate('/')} >{t("buttons.shorturl")}</button>
 
       </main>
     </div>
