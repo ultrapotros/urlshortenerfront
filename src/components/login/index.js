@@ -70,8 +70,8 @@ export default function FormLogin() {
                     })} />
             {errors.password && <div className='form--message-errors'><p >{errors.password.message}</p></div>}
 
-            <input type="submit" className='login--button nbutton' value={t("buttons.send")}/>
-            <p className='forgotten-password' onClick={() => navigate('/requestcode')}>{t("form.forgotten_password")}</p>
+            <input type="submit" className='simple--button' value={t("buttons.send")}/>
+            <p className='forgotten-password simple--button' onClick={() => navigate('/requestcode')}>{t("form.forgotten_password")}</p>
         <button className='login--button login--navigation nbutton' onClick={() => navigate('/')}>{t("buttons.back")}</button>
         </form>
         {viewModal && <div className="login-modal">

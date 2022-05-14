@@ -12,11 +12,10 @@ const registerUser = async (user)=> {
                     'custom:language':user.language          
                 }
             });
-      
+        return ('success')
     }
     catch (err) {
-        console.log(err)
-        if (err === "UsernameExistsException: User already exists") {
+        if (Object.values(err)[0] === "UsernameExistsException") {
             return ('err')
         }
     }
@@ -25,10 +24,9 @@ const registerUser = async (user)=> {
 const confirmUser = async (username, code) => {
     try {
         const res = await Auth.confirmSignUp(username, code);
-        console.log(res)
             return (res)
         } catch(err) {
-            if (err === "CodeMismatchException: Invalid verification code provided, please try again.") {
+            if (Object.values(err)[0] === "CodeMismatchException") {
                 return ('wrong code')
             }
             return ('err');
@@ -42,28 +40,16 @@ const loginUser = async (username, password) => {
     }
     catch(err) {
         console.log((err))
-        if (err === "NotAuthorizedException: Incorrect username or password.") {
-            console.log('contraseña incorrecta')
+        if (Object.values(err)[0] === "NotAuthorizedException") {
             return('wrongpassword')
           }
-          else if (err === "UserNotFoundException: User does not exist.") {
-              console.log('no existe el usuario')
+          else if (Object.values(err)[0] === "UserNotFoundException") {
               return('nouser')
           }
           else {
-              console.log('something went wrong')
               return('somewrong')
           }
     }
-}
-
-const getUrls = async (username) => {
-    const userdata = await Auth.currentSession();
-    const token = userdata.getAccessToken();
-    console.log(token.jwtToken)
-    const response = await axios.get(`http://localhost:3001/api/logged/users/${username}/all`, 
-    { headers: {"Authorization" : `${token.jwtToken}`} });
-    return (response)
 }
 
 const isSession = async () => {
@@ -101,22 +87,12 @@ const changePassword = async (datas) => {
       await Auth.signOut()
   }
 
-  const modifyUrl = async (id,newshorturl) => {
-    const userdata = await Auth.currentSession();
-    const token = userdata.getAccessToken();
-    console.log(token.jwtToken);
-    const response = await axios.put(`http://localhost:3001/api/logged/users/modify/${id}/${newshorturl}`, 
-    { headers: {"Authorization" : `${token.jwtToken}`} });
-    return response
-}
 export {
     registerUser,
     confirmUser,
     loginUser,
-    getUrls,
     isSession,
     sendCode,
     changePassword,
     logOut,
-    modifyUrl
 }

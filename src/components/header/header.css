@@ -5,7 +5,6 @@
     position: absolute;
     top: 0;
     right: 0;
-    /* background-color: var(--headerbackground); */
     margin: auto;
     display: flex;
     flex-direction: row-reverse;
@@ -15,14 +14,18 @@
 .header-nav {
     margin-right: 5%;
     display: flex;
-    column-gap: 2rem;
+    column-gap: 2vw;
 }
 .header-nav a {
-   /*  border: 1px solid var(--color7); */
     background-color: var(--headerbuttons);
     padding:0.8rem 1rem;
     border-radius: 10px;
 }
-.header-nav a:hover {
+.header--button:hover {
     transform: scale(1.1);
+}
+.header--button {
+    cursor: pointer;
+    font-size: clamp(.4rem, .8vw + .5rem, .8rem);
+    padding:2% 3%;
 }

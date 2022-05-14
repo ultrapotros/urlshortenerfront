@@ -3,24 +3,17 @@ import React, { useRef, useContext , useState , useEffect } from 'react';
 import { registerUser , confirmUser } from '../helpers/cognito';
 import { useForm } from 'react-hook-form';
 import { Context } from '../../App';
-import { Logged } from '../../App';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 
-/**
- * Component for the registration of new users
- * @params theme
- * @returns component react
- */
-export default function FormRegister(props) { //AQUI TENDRIA QUE HACER UN MODAL PARA INTRODUCIR EL CODIGO DE VALIDACION
-    // login or new user discriminator
+
+export default function FormRegister(props) { 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [ user, setUser ] = useContext(Context);
     const [ usertoConfirm, setUsertoConfirm ] = useState();
     const [ confirmModal, setConfirmModal ] = useState(false);
     const [ errorModal, setErrorModal ] = useState(false);
     const [ errorMessage, setErrorMessage ] = useState(false);
-    const [ logged, setLogged ] = useContext(Logged);
     const navigate = useNavigate();
     const [t] = useTranslation("global");
     const password = useRef({}); // to compare and confirm password and email
@@ -32,37 +25,47 @@ export default function FormRegister(props) { //AQUI TENDRIA QUE HACER UN MODAL 
         signUp(data);
     };
 
-    // post para ingresar el nuevo usario;
+    // post to register a new user
     async function signUp(newuser) {
         try {
             const res = await registerUser(newuser);
-            if (res == "err") {
+            console.log(res)
+            if (res === "err") {
                 setErrorModal(true);
                 setErrorMessage(t("modals.user_exists"))
             }
-            else {
+            else if (res === 'success'){
                 setUsertoConfirm(newuser.username);
                 setConfirmModal(true);
             }
+            else {
+                setErrorModal(true);
+                setErrorMessage(t("modals.somewrong"))
+            }
         } catch (error) {
-            console.log('error signing up:', error);
+            setErrorModal(true);
+            setErrorMessage(t("modals.somewrong"))
         }
       }
 
-    async function confirmSignUp() {
+    async function confirmSignUp() { //function to send cofimration code
         try {
             const res = await confirmUser(usertoConfirm, code.current.value);
-            if (res == "wrong code") {
+            if (res === "wrong code") { //getting wrong code error
                 setErrorModal(true)
                 setErrorMessage(t("modals.wrongcode"))
             }
             else {
                 navigate(`/login`)   
             }
-          } catch (error) { //here it should not enter ever 
-              console.log('error confirming sign up', error);
+          } catch (error) { //getting any other problem
+            setErrorModal(true);
+            setErrorMessage(t("modals.somewrong"))
           }
     }
+
+    useEffect(() => {
+      }, [])
 
     return (<div className='container'>
         <form className='form--login' onSubmit={handleSubmit(onSubmit)} >
@@ -122,14 +125,14 @@ export default function FormRegister(props) { //AQUI TENDRIA QUE HACER UN MODAL 
             </select>                     
             {errors.language && <div className='form--message-errors'><p>{errors.language.message}</p></div>}
 
-            <input type="submit" className='login--button' value= {t("buttons.send")}/>
+            <input type="submit" className='simple--button' value= {t("buttons.send")}/>
         </form>
-        <button className='login--button login--navigation' onClick={() => navigate('/')}>{t("buttons.back")}</button>
+        <button className='login--button nbutton' onClick={() => navigate('/')}>{t("buttons.back")}</button>
         {confirmModal && 
             <div className="registermodals">
                 <label className="modals-text">{t("modals.confirmation_code")}</label>
                 <input type="text" className="form-control" placeholder={t("form.confirmation_code")} ref ={code}/>
-                <button type="button" className="form-button" onClick={confirmSignUp}>{t("buttons.send")}</button>
+                <button type="button" className="simple--button" onClick={confirmSignUp}>{t("buttons.send")}</button>
             </div>}
         {errorModal && 
             <div className="registermodals">

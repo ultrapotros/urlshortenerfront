@@ -1,26 +1,31 @@
-import { getUrls , isSession /* , modifyUrl */} from '../helpers/cognito';
-import { deleteUrl , modifyUrl }from '../helpers/mongodb';
+import { isSession } from '../helpers/cognito';
+import { deleteUrl , modifyUrl , getUrls} from '../helpers/mongodb';
 import { useContext , useEffect , useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../../App';
 import { Logged } from '../../App';
 import { useForm } from 'react-hook-form';
+import  CopyToClipboard  from 'react-copy-to-clipboard';
+import {
+  SettingsOutlined,
+  DeleteOutlined,
+  ContentCopyRounded
+} from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import './urlslist.css';
 
 export default function Urls() {
+    const [t] = useTranslation("global");
     const [user, setUser] = useContext(Context);
     const [logged, setLogged] = useContext(Context);
-    const [urls, setUrls] = useState();
+    const [urls, setUrls] = useState([{url:t("urlslist.nourls"),shorturl:"",clicksCounter:""}]);
     const [isurls,setIsurls] = useState(false);
     const [modal,setModal] = useState(false);
     const [modify,setModify] = useState(false);
+    const [errorMessage, setErrorMessage] = useState();
     const [urlindex,setUrlindex] = useState();
-    const [t] = useTranslation("global");
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
-    console.log(user);
-  
  
     const handleButton = ()=> {
         navigate(`/${user.username}/profile`)
@@ -29,18 +34,19 @@ export default function Urls() {
     const handleUrls = async () => {
       try {
         const data = await getUrls(user.username)
-        setUrls(data.data.userurls)
+        console.log(data)
+        if (data.data.userurls.length > 0) {
+          setUrls(data.data.userurls) 
+        } 
         setIsurls(true)
-        
       }
       catch (err) {
-        console.log('en catch')
         setIsurls(false)}
     }
       
     const handleModify = async (i)=> {
       setUrlindex(i);
-      setModify(true);
+      setModify(!modify);
     }
     
     const handleModal = ()=> {
@@ -48,27 +54,67 @@ export default function Urls() {
     }
 
     const handleDelete = async (id)=> {
-      const body = {"_id":id}
-      console.log(body)
+      const body = {"_id":urls[id]._id}
       await deleteUrl(body).then(()=>{
+        setErrorMessage(t("modals.deleted"))
         setModal(true)
-        handleUrls();
       })
-      .catch((err)=>{
-        console.log(err)
+      .catch(()=>{
+        setErrorMessage(t("modals.somewrong"))
       })
+    }
+    const handleCopy = ()=> {
+      setErrorMessage(t("modals.copied"))
+      setModal(true)
     }
 
     const onSubmit = async (data) => {
-      await modifyUrl(urls[urlindex]._id, data.newurl )
-          .then (() => {
+      try{
+          const res = await modifyUrl(urls[urlindex]._id, data.newurl )
+          if (res === "Already exists") {
+            setErrorMessage(t("modals.short-exists"));
+            setModal(true);
+          }
+          else if (res === "updated") {
+            console.log('success')
               setModify(false);
-              handleUrls();
-          })
+              setErrorMessage(t("modals.short-modified"));
+              setModal(true);
+          }
+          else {
+            setErrorMessage(t("modals.wrongcode"))
+          }
+
+      }
+      catch {
+            setErrorMessage(t("modals.somewrong"))
+      }
     };
+
+    async function iscurrentSession() {
+      try {
+          const userdatas = await isSession();//gets logged users data if logged
+          setUser({username:userdatas.username, email:userdatas.attributes.email})
+          setLogged(true);
+      } catch (error) {
+          setUser({})
+      }
+      handleUrls();
+    }
+
     useEffect(async () => {
-      await handleUrls();
+      console.log('effect-1')
+      await iscurrentSession();
     }, [])  
+    
+    useEffect(() => {
+     console.log('effect-2')
+      const rendering = async()=> {
+        console.log('effect-3')
+        await handleUrls();
+      }
+      rendering()
+    }, [modal])  
     
     return (
     
@@ -76,7 +122,7 @@ export default function Urls() {
       <h1 className='urls-main--title'>{t("urlslist.title")}</h1>
       <main className='personal-urls'>
         {isurls? <div className='long-urls'>
-          <div className='personal-urls--tittles'>
+          <div className='personal-urls--titles'>
               <h3 className='title-b'> {t("urlslist.longurls")}</h3>
               <h3 className='title-b'> {t("urlslist.shorturls")}</h3>
               <h3 className='title-b'> {t("urlslist.clicks")}</h3>
@@ -85,29 +131,34 @@ export default function Urls() {
             <ul className='urls-list'>
                 {urls.map((element, index)=> 
                   <li key={index} className='urls-list-row'>
-                    <div className='urls-list-column'>{element.url}</div>
-                    <div className='urls-list-column'>{element.shorturl}</div>
+                    <div className='urls-list-column url'>{element.url}</div>
+                    <CopyToClipboard text={element.shorturl} onCopy={handleCopy}><div className='urls-list-column short_url'>
+                    {element.shorturl} <ContentCopyRounded className='simple--button'/></div>
+                    </CopyToClipboard>
+                   
                     <div className='urls-list-column'>{element.clicksCounter}</div>
                     <div className='urls-list-buttons'>
-                      <button className='delete-url nbutton' onClick={()=>handleModify(index)}>{t("buttons.modify")}</button>
-                      <button className='delete-url nbutton' onClick={()=>handleDelete(element._id)}>{t("buttons.delete")}</button>
+                      <SettingsOutlined className='simple--button' onClick={()=>handleModify(index)}/>
+                      <DeleteOutlined className='simple--button' onClick={()=>handleDelete(index)}/>
                     </div>
                   </li>)}
             </ul>
         </div> : <h3>Charging...</h3>}
       </main>
       <button className="nbutton" onClick={handleButton} >{t("buttons.back")}</button>
-      {modal && <div className="modal"><p className="modal-text">{t("modals.deleted")}</p><button onClick={handleModal} >x</button></div>}
+      {modal && <div className="modal"><p className="modal-text">{errorMessage}</p><button onClick={handleModal} >x</button></div>}
+      
+      {/* modal to customize shorturl */}
       {modify && <form className='form--login' onSubmit={handleSubmit(onSubmit)} >
-            {/* User Name */}
+            {/* Original Url */}
             <input spellCheck="false" className='form--input' type="text" value={urls[urlindex].url} disabled{
                 ...register("url")} />
-            {/* User Name */}
+            {/* Current Short Urls: */}
             <input spellCheck="false" className='form--input' type="text" value={urls[urlindex].shorturl} disabled{
                 ...register("shorturl")} />
                   
 
-            {/* Password */}
+            {/* New Short Url */}
             <input spellCheck="false" className='form--input' type="text" placeholder={t("form.modify")} {
                 ...register("newurl",
                     {
@@ -117,7 +168,7 @@ export default function Urls() {
                     })} />
             {errors.newurl && <div className='form--message-errors'><p >{errors.newurl.message}</p></div>}
 
-            <input type="submit" className='login--button' value={t("buttons.send")}/>
+            <input type="submit" className='modify--button simple--button' value={t("buttons.send")}/>
         </form>}
     </div>
   );

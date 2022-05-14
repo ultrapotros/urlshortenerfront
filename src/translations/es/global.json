@@ -17,7 +17,8 @@
         "title":"Mis Urls",
         "longurls": "Url/s original/es",
         "shorturls":"Url/s recortada/s",
-        "clicks": "visitas"
+        "clicks": "visitas",
+        "nourls":"No has recortado urls"
     },
     "form": {
         "username":"Nombre de usuario",
@@ -52,12 +53,15 @@
     },
     "modals" :{
         "alreadyshortened":"Yas has recortado esa url",
+        "short-exists":"Ya hay una url igual",
+        "short-modified":"Modificada",
         "shortened":"Esta es tu url recortada: https://www.",
         "deleted":"Registro borrado",
         "nouser":"Usuario no registrado",
         "wrongpassword":"Contraseña errónea",
         "somewrong":"Algo fue mal",
         "wrongcode":"Código erróneo",
+        "copied":"Copiado",
         "confirmation_code":"Introduce el código de confirmación recibido en tu email",
         "user_exists":"Ya existe un usuario con ese nombre"
     }

@@ -410,6 +410,7 @@
     padding: 12px 27px;
     text-align: center;
     /* font-size: 16px; */
+    /* font-size: clamp(.6rem, 1vw + .5rem, 1.6rem); */
     letter-spacing: 1px;
     text-decoration: none;
     color: var(--color1);
@@ -456,3 +457,4 @@
     height: calc(100% + 15px);
     border-color: #222222;
 }
+

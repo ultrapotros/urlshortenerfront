@@ -17,7 +17,8 @@
         "title":"My Urls",
         "longurls": "Original Url/s",
         "shorturls":"Shortened Url/s",
-        "clicks": "Views"
+        "clicks": "Views",
+        "nourls":"You've not shortened urls"
     },
     "form": {
         "username":"Username",
@@ -30,7 +31,7 @@
         "language_en":"English",
         "confirmation_code":"Confirmation code",
         "modify":"Customize your url",
-        "forgotten_password":"He olvidado la contraseña"
+        "forgotten_password":"I forgot my password"
     },
     "buttons": {
         "send":"Send",
@@ -52,12 +53,15 @@
     },
     "modals":{
         "alreadyshortened":"You have already shortened that url",
+        "short-exists":"That url already exists",
+        "short-modified":"Modified",
         "shortened":"This is your url shortened: https://www.",
         "deleted":"Entry deleted",
         "nouser":"User not registered",
         "wrongpassword":"Wrong password",
         "somewrong":"Something went wrong",
         "wrongcode":"Wrong code",
+        "copied":"Copied",
         "confirmation_code":"Introduce the confirmation code received in your email",
         "user_exists":"Already exists an user with that username"
     }
