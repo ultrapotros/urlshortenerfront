@@ -1,5 +1,5 @@
 
-import React, { useRef, useContext , useState , useEffect } from 'react';
+import React, { useRef, useState , useEffect } from 'react';
 import { registerUser , confirmUser } from '../helpers/cognito';
 import { useForm } from 'react-hook-form';
 import { Context } from '../../App';
@@ -7,9 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 
 
-export default function FormRegister(props) { 
+export default function FormRegister() { 
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const [ user, setUser ] = useContext(Context);
     const [ usertoConfirm, setUsertoConfirm ] = useState();
     const [ confirmModal, setConfirmModal ] = useState(false);
     const [ errorModal, setErrorModal ] = useState(false);
@@ -29,7 +28,6 @@ export default function FormRegister(props) {
     async function signUp(newuser) {
         try {
             const res = await registerUser(newuser);
-            console.log(res)
             if (res === "err") {
                 setErrorModal(true);
                 setErrorMessage(t("modals.user_exists"))
@@ -128,16 +126,20 @@ export default function FormRegister(props) {
             <input type="submit" className='simple--button' value= {t("buttons.send")}/>
         </form>
         <button className='login--button nbutton' onClick={() => navigate('/')}>{t("buttons.back")}</button>
+
+        {/* modal to introduce confirmation code */}
         {confirmModal && 
             <div className="registermodals">
                 <label className="modals-text">{t("modals.confirmation_code")}</label>
                 <input type="text" className="form-control" placeholder={t("form.confirmation_code")} ref ={code}/>
                 <button type="button" className="simple--button" onClick={confirmSignUp}>{t("buttons.send")}</button>
             </div>}
+
+        {/* modal to show errors */}
         {errorModal && 
-            <div className="registermodals">
-                <label className="modals-text">{errorMessage}</label>
-                <button type="button" className="form-button" onClick={(()=>setErrorModal(false))}>{t("buttons.close")}</button>
+            <div className="errors-modal">
+                <span className="modals-text">{errorMessage}</span>
+                <button type="button" className="form-button simple--button" onClick={(()=>setErrorModal(false))}>{t("buttons.close")}</button>
             </div>}
     </div>
     );

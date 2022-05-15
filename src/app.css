@@ -178,3 +178,16 @@
 .simple--button:hover {
   transform: scale(1.1);
 }
+
+.errors-modal, .confirm-modal {
+  display:flex;
+  column-gap:1rem;
+  padding:.5rem 1rem;
+  background-color: var(--errors-modal);
+  border-radius:10px;
+  align-items:center;
+}
+
+.confirm-modal {
+  background-color: var(--confirm-modal);
+}

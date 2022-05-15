@@ -6,7 +6,7 @@ const postNewUrl = async (body) => {
     return response
 }
 
-const getUrls = async (username) => {
+const getUrls = async () => {
     const userdata = await Auth.currentSession();
     const token = userdata.getAccessToken();
     const userdatas = await Auth.currentUserInfo();//gets logged users data

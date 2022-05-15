@@ -1,5 +1,5 @@
 
-import React, { useContext , useState , useEffect } from 'react';
+import React, { useContext , useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { loginUser } from '../helpers/cognito';
 import { Context } from '../../App';
@@ -7,15 +7,9 @@ import { Logged } from '../../App';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import './login.css';
-import { Auth } from 'aws-amplify';
 
-/**
- * Component for the registration of new users
- * @params theme
- * @returns component react
- */
+
 export default function FormLogin() {
-    // login or new user discriminator
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [ user, setUser ] = useContext(Context);
     const [ logged, setLogged ] = useContext(Logged);
@@ -24,12 +18,12 @@ export default function FormLogin() {
     const navigate = useNavigate();
     const [t,i18n] = useTranslation("global");
 
-    async function signIn(data) {//si la contraseña es erronea devuelve un 400
+    async function signIn(data) {
         try {
           const userlogged  = await loginUser(data.username, data.password);
           if (userlogged.username) {
             setUser({username:userlogged.username, email:userlogged.attributes.email});
-            setLogged(true);//esto hace renderizar el header
+            setLogged(true);
             const userlang = {...userlogged.attributes}
             i18n.changeLanguage(userlang["custom:language"])
             navigate(`/${userlogged.username}/profile`)              
@@ -74,9 +68,9 @@ export default function FormLogin() {
             <p className='forgotten-password simple--button' onClick={() => navigate('/requestcode')}>{t("form.forgotten_password")}</p>
         <button className='login--button login--navigation nbutton' onClick={() => navigate('/')}>{t("buttons.back")}</button>
         </form>
-        {viewModal && <div className="login-modal">
+        {viewModal && <div className="errors-modal">
             <span className="login-modal--message">{errorMessage}</span>
-            <div onClick={()=>setViewModal(false)} className="login-modal--close">x</div>
+            <button className="simple--button login-modal--close" onClick={()=>setViewModal(false)}>x</button>
         </div>}
     </div>
     );

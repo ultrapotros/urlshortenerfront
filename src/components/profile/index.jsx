@@ -34,7 +34,6 @@ export default function Profile() {
   return (
     
     <div className='container'>
-      {/* <Header /> */}
       <main className='personal-data'>
         <h1 className='tittle'>
         {t("personalmain.title")}

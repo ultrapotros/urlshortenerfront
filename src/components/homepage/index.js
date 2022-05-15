@@ -2,12 +2,14 @@ import './homepage.css'
 import { postNewUrl } from '../helpers/mongodb';
 import { isSession } from '../helpers/cognito';
 import { useContext, useEffect , useState} from 'react';
-import { useNavigate } from 'react-router-dom';
 import  CopyToClipboard  from 'react-copy-to-clipboard';
 import { Context } from '../../App';
 import { Logged } from '../../App';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
+import {
+  ContentCopyRounded
+} from "@mui/icons-material";
 
 export default function HomePage() {
   const [user, setUser] = useContext(Context);
@@ -16,7 +18,6 @@ export default function HomePage() {
   const [created, setCreated] = useState(false);
   const [shorturl, setShorturl] = useState('');
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const navigate = useNavigate();
   const [t] = useTranslation("global");
   const handleNewUrl = async (data)=> {
     const body = {                      
@@ -32,7 +33,6 @@ export default function HomePage() {
         })
         .catch((err) => {
           setViewmodal(true)
-          console.log(err)
         })
   }
 
@@ -69,19 +69,21 @@ useEffect(() => {
               {
                 required: { value: true, message: `${t("formserrors.required")}` },
                 pattern: { value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, message: `${t("formserrors.wrongformat")}` }
-                /* para comenzar la expresión regular usamos /^ y para terminarla $/ */
+                /* regular expression to check url */
               })} />
                         {errors.url && <div className='form--message-errors'><p>{errors.url.message}</p></div>}
-            <input className="nbutton" type="submit" value={t("buttons.send")}/>
+            <input className="login--button login--navigation nbutton" type="submit" value={t("buttons.send")}/>
           </form>
-          {viewmodal && <div className="modal">
-              {created?             
+          {viewmodal && <div className="modal confirm-modal">
+            <div className="confirm-modal">  {created?             
               <CopyToClipboard text={`https://www.yus.${shorturl}`} onCopy={() => setViewmodal(false)}>
-                <div><p className="copy>">{t("modals.shortened")}{`yus.${shorturl}`}</p>
-                <button className="copy">{t("buttons.copy")}</button></div>
+                <div className="confirm-modal"><span className="copy>">
+                  {t("modals.shortened")}{`yus.${shorturl}`}</span>
+                <ContentCopyRounded className="simple--button"/>
+               </div>
               </CopyToClipboard> : 
-              <p className="modal-content">{t("modals.alreadyshortened")}</p>}
-              <div /* className="modal-button" */><button className="modal-button" onClick={()=>setViewmodal(false)}>x</button></div>
+              <span>{t("modals.alreadyshortened")}</span>}
+              <button className="modal-button simple--button" onClick={()=>setViewmodal(false)}>x</button></div>
           </div>}
         </div>
       </main>

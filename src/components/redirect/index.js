@@ -11,18 +11,15 @@ export default function Redirect() {
   const navigate = useNavigate();
 
     const {shortid} = useParams();
-    console.log(shortid)
     const handleredirect = async ()=> {
         await getLongUrl(shortid)
           .then((data)=> {
             const newurl = data.data;
-            console.log(newurl)
             window.location.href=`https://${newurl}/`
           })
-          .catch((error)=> {
+          .catch(()=> {
             setErrorMessage(t("modals.not_found"))
             setModal(true)
-            console.log(error)
           })
     }
 
@@ -36,6 +33,6 @@ export default function Redirect() {
     }, [])
     return <div>
         <h1>Redirecting...</h1>
-        {modal && <div className="modal"><p className="modal-text">{errorMessage}</p><button onClick={handleModal} >x</button></div>}
+        {modal && <div className="errors-modal"><p className="modal-text">{errorMessage}</p><button className="simple--button" onClick={handleModal} >x</button></div>}
     </div>
 }

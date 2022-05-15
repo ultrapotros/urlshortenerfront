@@ -20,9 +20,11 @@ export default function Urls() {
     const [logged, setLogged] = useContext(Context);
     const [urls, setUrls] = useState([{url:t("urlslist.nourls"),shorturl:"",clicksCounter:""}]);
     const [isurls,setIsurls] = useState(false);
-    const [modal,setModal] = useState(false);
+    const [errorModal,setErrorModal] = useState(false);
+    const [confirmModal,setConfirmModal] = useState(false);
     const [modify,setModify] = useState(false);
     const [errorMessage, setErrorMessage] = useState();
+    const [confirmMessage, setConfirmMessage] = useState();
     const [urlindex,setUrlindex] = useState();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
@@ -47,16 +49,12 @@ export default function Urls() {
       setUrlindex(i);
       setModify(!modify);
     }
-    
-    const handleModal = ()=> {
-        setModal(false)
-    }
-
+  
     const handleDelete = async (id)=> {
       const body = {"_id":urls[id]._id}
       await deleteUrl(body).then(()=>{
-        setErrorMessage(t("modals.deleted"))
-        setModal(true)
+        setConfirmMessage(t("modals.deleted"))
+        setConfirmModal(true)
       })
       await handleUrls()
       .catch(()=>{
@@ -64,8 +62,8 @@ export default function Urls() {
       })
     }
     const handleCopy = ()=> {
-      setErrorMessage(t("modals.copied"))
-      setModal(true)
+      setConfirmMessage(t("modals.copied"))
+      setConfirmModal(true)
     }
 
     const onSubmit = async (data) => {
@@ -73,12 +71,12 @@ export default function Urls() {
           const res = await modifyUrl(urls[urlindex]._id, data.newurl )
           if (res === "Already exists") {
             setErrorMessage(t("modals.short-exists"));
-            setModal(true);
+            setErrorModal(true);
           }
           else if (res === "updated") {
             setModify(false);
-            setErrorMessage(t("modals.short-modified"));
-            setModal(true);
+            setConfirmMessage(t("modals.short-modified"));
+            setConfirmModal(true);
           }
           else {
             setErrorMessage(t("modals.wrongcode"))
@@ -139,7 +137,8 @@ export default function Urls() {
         </div> : <h3>Charging...</h3>}
       </main>
       <button className="nbutton" onClick={handleButton} >{t("buttons.back")}</button>
-      {modal && <div className="modal"><p className="modal-text">{errorMessage}</p><button onClick={handleModal} >x</button></div>}
+      {errorModal && <div className="errors-modal"><span className="modal-text">{errorMessage}</span><button className="simple--button"onClick={()=>setErrorModal(!errorModal)} >x</button></div>}
+      {confirmModal && <div className="confirm-modal"><span className="modal-text">{confirmMessage}</span><button className="simple--button"onClick={()=>setConfirmModal(!confirmModal)} >x</button></div>}
       
       {/* modal to customize shorturl */}
       {modify && <form className='form--login' onSubmit={handleSubmit(onSubmit)} >

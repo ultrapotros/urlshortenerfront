@@ -1,5 +1,5 @@
 import './header.css'
-import { useContext , useState, useEffect} from 'react';
+import { useContext } from 'react';
 import { NavLink} from 'react-router-dom';
 import { logOut } from '../helpers/cognito';
 import { useTranslation } from "react-i18next";
@@ -19,14 +19,11 @@ export default function Header(){
         await logOut();
     })
 
-/*     useEffect(() => {    
-    }, [])
- */
     return(
         <div className='top-header'>
             <nav className='header-nav'>
                 {logged ? <NavLink className='simple--button' to ={`/${user.username}/profile`}>{t("header.profile")}</NavLink> : 
-                <NavLink className='simple--button' to ={`/register`}>{t("header.register")}</NavLink>} {/* aqui hay que redireccionar al componente con el formulario de registro */}
+                <NavLink className='simple--button' to ={`/register`}>{t("header.register")}</NavLink>} 
                 {logged ? <NavLink className='simple--button' to ={`/`} onClick = {handleLogout}>{t("header.logout")}</NavLink> : 
                 <NavLink className='simple--button' to ={`/login`}>{t("header.login")}</NavLink>}
                 <div className='language--buttons'>
@@ -36,4 +33,4 @@ export default function Header(){
             </nav>
         </div>
     )
-    }
+}

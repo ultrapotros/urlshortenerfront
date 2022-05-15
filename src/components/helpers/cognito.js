@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Auth } from 'aws-amplify';
 
 const registerUser = async (user)=> {
@@ -64,27 +63,32 @@ const isSession = async () => {
     
 const sendCode = async (username)=> {
     try {
-        await Auth.forgotPassword(username);
+        const data = await Auth.forgotPassword(username);
+        return(data)
     }
     catch(err) {
-        console.log(err);
+        if (Object.values(err)[0] === "UserNotFoundException"){
+            return('nouser')
+        }
+        return('somewrong');
     }
 }
 
 const changePassword = async (datas) => {
     try {
-      await Auth.forgotPasswordSubmit(datas.username,datas.code, datas.password);
-      
+      const data = await Auth.forgotPasswordSubmit(datas.username,datas.code, datas.password);
+         return data;
     } catch (err) {
-        if (err === "CodeMismatchException: Invalid verification code provided, please try again."){
-            return ('wrongcode')
+        if (Object.values(err)[0] === "CodeMismatchException"){
+            return('wrongcode')
         }
-      console.log(err);
+      return('somewrong');
     }
   }
-  const logOut = async ()=> {
-      await Auth.signOut()
-  }
+
+const logOut = async ()=> {
+    await Auth.signOut()
+}
 
 export {
     registerUser,

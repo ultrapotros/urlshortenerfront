@@ -375,6 +375,9 @@
     --main: #acb0e6;
     --main-blue: #2848DD;
     --main-yellow: #ddbd28;
+    --mobile-url-background: #8ca0ff;
+    --errors-modal: #dd2848;
+    --confirm-modal: #48dd28;
   }
   /*triadic
     /* .color-1 {color: #2848dd;}
