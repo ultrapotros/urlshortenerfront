@@ -39,7 +39,6 @@ const loginUser = async (username, password) => {
     return user
     }
     catch(err) {
-        console.log((err))
         if (Object.values(err)[0] === "NotAuthorizedException") {
             return('wrongpassword')
           }

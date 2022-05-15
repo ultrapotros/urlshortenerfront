@@ -76,8 +76,8 @@ useEffect(() => {
           </form>
           {viewmodal && <div className="modal">
               {created?             
-              <CopyToClipboard text={shorturl} onCopy={() => setViewmodal(false)}>
-                <div><p className="copy>">{t("modals.shortened")}{shorturl}</p>
+              <CopyToClipboard text={`https://www.yus.${shorturl}`} onCopy={() => setViewmodal(false)}>
+                <div><p className="copy>">{t("modals.shortened")}{`yus.${shorturl}`}</p>
                 <button className="copy">{t("buttons.copy")}</button></div>
               </CopyToClipboard> : 
               <p className="modal-content">{t("modals.alreadyshortened")}</p>}

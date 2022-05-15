@@ -36,7 +36,6 @@ export default function App(){
 
     return(<> 
             <div className="top-background"></div>
-            <div className="bottom-background"></div>
             <Context.Provider value={[user,setUser]}>
                 <Logged.Provider value={[logged, setLogged]}>
                     <Router>

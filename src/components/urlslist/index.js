@@ -33,8 +33,7 @@ export default function Urls() {
 
     const handleUrls = async () => {
       try {
-        const data = await getUrls(user.username)
-        console.log(data)
+        const data = await getUrls()
         if (data.data.userurls.length > 0) {
           setUrls(data.data.userurls) 
         } 
@@ -59,6 +58,7 @@ export default function Urls() {
         setErrorMessage(t("modals.deleted"))
         setModal(true)
       })
+      await handleUrls()
       .catch(()=>{
         setErrorMessage(t("modals.somewrong"))
       })
@@ -76,14 +76,14 @@ export default function Urls() {
             setModal(true);
           }
           else if (res === "updated") {
-            console.log('success')
-              setModify(false);
-              setErrorMessage(t("modals.short-modified"));
-              setModal(true);
+            setModify(false);
+            setErrorMessage(t("modals.short-modified"));
+            setModal(true);
           }
           else {
             setErrorMessage(t("modals.wrongcode"))
           }
+          await handleUrls();
 
       }
       catch {
@@ -94,27 +94,19 @@ export default function Urls() {
     async function iscurrentSession() {
       try {
           const userdatas = await isSession();//gets logged users data if logged
-          setUser({username:userdatas.username, email:userdatas.attributes.email})
+          if (user.username!== userdatas.username) {
+            setUser({username:userdatas.username, email:userdatas.attributes.email});
+          }
           setLogged(true);
+          await handleUrls();
       } catch (error) {
           setUser({})
       }
-      handleUrls();
     }
 
     useEffect(async () => {
-      console.log('effect-1')
       await iscurrentSession();
     }, [])  
-    
-    useEffect(() => {
-     console.log('effect-2')
-      const rendering = async()=> {
-        console.log('effect-3')
-        await handleUrls();
-      }
-      rendering()
-    }, [modal])  
     
     return (
     
@@ -131,9 +123,10 @@ export default function Urls() {
             <ul className='urls-list'>
                 {urls.map((element, index)=> 
                   <li key={index} className='urls-list-row'>
-                    <div className='urls-list-column url'>{element.url}</div>
-                    <CopyToClipboard text={element.shorturl} onCopy={handleCopy}><div className='urls-list-column short_url'>
-                    {element.shorturl} <ContentCopyRounded className='simple--button'/></div>
+                    <div className='urls-list-column url'>{element.url}</div> 
+                    {/* once deployed you only have to change text parameter */}
+                    <CopyToClipboard /* text={`https://www.yus.${element.shorturl}`} */ text={`https://localhost:3000/${element.shorturl}`} onCopy={handleCopy}><div className='urls-list-column short_url'>
+                    {`yus.${element.shorturl}`} <ContentCopyRounded className='simple--button'/></div>
                     </CopyToClipboard>
                    
                     <div className='urls-list-column'>{element.clicksCounter}</div>

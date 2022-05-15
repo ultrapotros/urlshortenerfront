@@ -63,6 +63,7 @@
         "wrongcode":"Código erróneo",
         "copied":"Copiado",
         "confirmation_code":"Introduce el código de confirmación recibido en tu email",
-        "user_exists":"Ya existe un usuario con ese nombre"
+        "user_exists":"Ya existe un usuario con ese nombre",
+        "not_found":"url no encontrada"
     }
 }

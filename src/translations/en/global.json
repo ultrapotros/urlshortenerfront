@@ -63,6 +63,7 @@
         "wrongcode":"Wrong code",
         "copied":"Copied",
         "confirmation_code":"Introduce the confirmation code received in your email",
-        "user_exists":"Already exists an user with that username"
+        "user_exists":"Already exists an user with that username",
+        "not_found":"Not found"
     }
 }
