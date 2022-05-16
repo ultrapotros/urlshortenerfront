@@ -1,0 +1,69 @@
+{
+    "header": {
+        "register":"Registro",
+        "login":"Entrar",
+        "profile":"Perfil",
+        "logout":"Salir"
+    },
+    "shortener": {
+        "titlelogged": "Introduce la url a recortar",
+        "titleunlogged": "Registrate y gestiona tus urls"
+    },
+    "personalmain": {
+        "title":"Mis Datos",
+        "name": "Nombre de usuario: "
+    },
+    "urlslist": {
+        "title":"Mis Urls",
+        "longurls": "Url/s original/es",
+        "shorturls":"Url/s recortada/s",
+        "clicks": "visitas",
+        "nourls":"No has recortado urls"
+    },
+    "form": {
+        "username":"Nombre de usuario",
+        "emailcheck":"Repite email",
+        "password":"Contraseña",
+        "newpassword":"Contraseña nueva",
+        "passwordcheck":"Repite la contraseña",
+        "language":"Idioma",
+        "language_es":"Español",
+        "language_en":"Inglés",
+        "confirmation_code":"Código de confirmación",
+        "modify":"Personaliza tu url",
+        "forgotten_password":"He olvidado la contraseña"
+    },
+    "buttons": {
+        "send":"Enviar",
+        "back":"Volver",
+        "modify":"Modificar",
+        "delete":"Borrar",
+        "myurls":"Mis urls",
+        "shorturl":"Recortar url",
+        "copy":"copiar",
+        "close":"cerrar"
+    },
+    "formserrors": {
+        "required":"Campo requerido",
+        "maxlength":"Tamaño máximo ",
+        "minlength":"Tamaño mínimo ",
+        "wrongformat":"Formato incorrecto",
+        "emailnotmatch":"Los emails no coinciden",
+        "passwordnotmatch":"Las contraseñas no coinciden"
+    },
+    "modals" :{
+        "alreadyshortened":"Yas has recortado esa url",
+        "short-exists":"Ya hay una url igual",
+        "short-modified":"Modificada",
+        "shortened":"Esta es tu url recortada: https://www.",
+        "deleted":"Registro borrado",
+        "nouser":"Usuario no registrado",
+        "wrongpassword":"Contraseña errónea",
+        "somewrong":"Algo fue mal",
+        "wrongcode":"Código erróneo",
+        "copied":"Copiado",
+        "confirmation_code":"Introduce el código de confirmación recibido en tu email",
+        "user_exists":"Ya existe un usuario con ese nombre",
+        "not_found":"url no encontrada"
+    }
+}

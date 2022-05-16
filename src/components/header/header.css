@@ -1,0 +1,31 @@
+
+.top-header {
+    width: 10%;
+    height: 10vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: auto;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-bottom: 3vh;
+}
+.header-nav {
+    margin-right: 5%;
+    display: flex;
+    column-gap: 2vw;
+}
+.header-nav a {
+    background-color: var(--headerbuttons);
+    padding:0.8rem 1rem;
+    border-radius: 10px;
+}
+.header--button:hover {
+    transform: scale(1.1);
+}
+.header--button {
+    cursor: pointer;
+    font-size: clamp(.4rem, .8vw + .5rem, .8rem);
+    padding:2% 3%;
+}
