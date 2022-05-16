@@ -23,7 +23,6 @@ export default function App(){
         try {
             await Auth.currentSession();//checks there's a valid user logged and if its session is still valid
             const userdatas = await Auth.currentUserInfo();//gets logged users data
-            console.log(userdatas)
             setUser({...userdatas.attributes})
             setLogged(true);
         } catch (error) {

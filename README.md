@@ -1,4 +1,48 @@
 # Getting Started with Create React App
+This is a project created as a final personal project for the bootcamp Full Stack Developer of The Bridge I studied from 21/9 to 22/5
+
+Feel free to use the code.
+You can use your Amazon Cognito bucket introducing your credentials in your own aws-exports.js file
+
+const awsmobile = {
+    "aws_project_region": "*",
+    "aws_cognito_identity_pool_id": "*",
+    "aws_cognito_region": "*",
+    "aws_user_pools_id": "*",
+    "aws_user_pools_web_client_id": "*",
+    "oauth": {},
+    "federationTarget": "COGNITO_IDENTITY_POOLS",
+    "aws_cognito_username_attributes": [],
+    "aws_cognito_social_providers": [],
+    "aws_cognito_signup_attributes": [
+        "EMAIL"
+    ],
+    "aws_cognito_mfa_configuration": "OFF",
+    "aws_cognito_mfa_types": [
+        "SMS"
+    ],
+    "aws_cognito_password_protection_settings": {
+        "passwordPolicyMinLength": "6",
+        "passwordPolicyCharacters": []
+    },
+    "aws_cognito_verification_mechanisms": [
+        "EMAIL"
+    ],
+    "aws_cloud_logic_custom": [
+        {
+            "name": "AdminQueries",
+            "endpoint": "*",
+            "region": "*"
+        }
+    ]
+};
+
+
+If you have doubts about the proccess, you can find all info in these links:
+https://docs.amplify.aws/start/getting-started/installation/q/integration/react/
+https://docs.amplify.aws/lib/auth/getting-started/q/platform/js/
+
+export default awsmobile;
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

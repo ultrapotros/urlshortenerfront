@@ -17,8 +17,10 @@ export default function HomePage() {
   const [viewmodal, setViewmodal] = useState(false);
   const [created, setCreated] = useState(false);
   const [shorturl, setShorturl] = useState('');
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [t] = useTranslation("global");
+
+
   const handleNewUrl = async (data)=> {
     const body = {                      
         username: logged? user.username : '',
@@ -30,6 +32,7 @@ export default function HomePage() {
             setShorturl(newData.data.shorturl);
             setViewmodal(true);
             setCreated(true);
+            reset();
         })
         .catch((err) => {
           setViewmodal(true)
@@ -49,8 +52,8 @@ async function iscurrentSession() {
 useEffect(() => {
   iscurrentSession();
 }, [])
- 
-  return (
+console.log('rendering')
+return (
     
     <div className='container'>
       <main className='main'>
@@ -64,9 +67,10 @@ useEffect(() => {
 
         <div className='form'>
           <form className='card'onSubmit={handleSubmit(handleNewUrl)}>
-            <input /* ref={inputRef} */ type="text" className='input' placeholder='URL' {
+            <input type="text" className='input' placeholder='URL' {
               ...register("url",
               {
+                defaultValue: "",
                 required: { value: true, message: `${t("formserrors.required")}` },
                 pattern: { value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, message: `${t("formserrors.wrongformat")}` }
                 /* regular expression to check url */

@@ -1,7 +1,7 @@
 {
   "name": "message-app",
   "version": "0.1.0",
-  "private": true,
+  "description": "Url shortener with register option to manage your urls",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -15,7 +15,6 @@
     "aws-jwt-verify": "^3.0.0",
     "axios": "^0.26.0",
     "i18next": "^21.6.16",
-    "md5": "^2.3.0",
     "react": "^17.0.2",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^17.0.2",

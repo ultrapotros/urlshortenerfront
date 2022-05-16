@@ -76,16 +76,11 @@ export default function ChangePassword() {
         <input type="submit" className='simple--button' value= {t("buttons.send")}/>
     </form>
     <button className='login--button login--navigation nbutton' onClick={() => navigate('/')}>{t("buttons.back")}</button>
-{/*     {confirmModal && 
-        <div className="registermodals">
-            <label className="modals-text">{t("modals.confirmation_code")}</label>
-            <input type="text" className="form-control" placeholder={t("form.confirmation_code")} ref ={code}/>
-            <button type="button" className="form-button" onClick={confirmSignUp}>{t("buttons.send")}</button>
-        </div>} */}
+
     {errorModal && 
         <div className="errors-modal">
             <span className="modals-text">{errorMessage}</span>
-            <button type="button" className="form-button simple--button" onClick={(()=>setErrorModal(false))}>{t("buttons.close")}</button>
+            <button type="button" className="modal-button simple--button" onClick={(()=>setErrorModal(false))}>x{/* {t("buttons.close")} */}</button>
         </div>}
 </div>
     );

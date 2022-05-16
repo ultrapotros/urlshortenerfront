@@ -2,7 +2,6 @@
 import React, { useRef, useState , useEffect } from 'react';
 import { registerUser , confirmUser } from '../helpers/cognito';
 import { useForm } from 'react-hook-form';
-import { Context } from '../../App';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 

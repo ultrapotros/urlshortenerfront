@@ -137,11 +137,11 @@ export default function Urls() {
         </div> : <h3>Charging...</h3>}
       </main>
       <button className="nbutton" onClick={handleButton} >{t("buttons.back")}</button>
-      {errorModal && <div className="errors-modal"><span className="modal-text">{errorMessage}</span><button className="simple--button"onClick={()=>setErrorModal(!errorModal)} >x</button></div>}
-      {confirmModal && <div className="confirm-modal"><span className="modal-text">{confirmMessage}</span><button className="simple--button"onClick={()=>setConfirmModal(!confirmModal)} >x</button></div>}
+      {errorModal && <div className="errors-modal"><span className="modal-text">{errorMessage}</span><button className="modal-button simple--button"onClick={()=>setErrorModal(!errorModal)} >x</button></div>}
+      {confirmModal && <div className="confirm-modal"><span className="modal-text">{confirmMessage}</span><button className="modal-button simple--button"onClick={()=>setConfirmModal(!confirmModal)} >x</button></div>}
       
       {/* modal to customize shorturl */}
-      {modify && <form className='form--login' onSubmit={handleSubmit(onSubmit)} >
+      {modify && <form className='form--login modal' onSubmit={handleSubmit(onSubmit)} >
             {/* Original Url */}
             <input spellCheck="false" className='form--input' type="text" value={urls[urlindex].url} disabled{
                 ...register("url")} />

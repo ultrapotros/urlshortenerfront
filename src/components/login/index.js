@@ -69,7 +69,7 @@ export default function FormLogin() {
         <button className='login--button login--navigation nbutton' onClick={() => navigate('/')}>{t("buttons.back")}</button>
         </form>
         {viewModal && <div className="errors-modal">
-            <span className="login-modal--message">{errorMessage}</span>
+            <span>{errorMessage}</span>
             <button className="simple--button login-modal--close" onClick={()=>setViewModal(false)}>x</button>
         </div>}
     </div>

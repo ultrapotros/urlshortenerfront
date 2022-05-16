@@ -44,7 +44,7 @@ export default function RequestconfirmCode() {
         {errorModal && 
         <div className="errors-modal">
             <label className="modals-text">{errorMessage}</label>
-            <button type="button" className="form-button simple--button" onClick={(()=>setErrorModal(false))}>{t("buttons.close")}</button>
+            <button type="button" className="modal-button simple--button" onClick={(()=>setErrorModal(false))}>x</button>
         </div>}
     </div>
     );

@@ -82,6 +82,9 @@ const changePassword = async (datas) => {
         if (Object.values(err)[0] === "CodeMismatchException"){
             return('wrongcode')
         }
+        if (Object.values(err)[0] === "UserNotFoundException"){
+            return('nouser')
+        }
       return('somewrong');
     }
   }

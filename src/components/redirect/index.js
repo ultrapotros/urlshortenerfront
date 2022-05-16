@@ -33,6 +33,6 @@ export default function Redirect() {
     }, [])
     return <div>
         <h1>Redirecting...</h1>
-        {modal && <div className="errors-modal"><p className="modal-text">{errorMessage}</p><button className="simple--button" onClick={handleModal} >x</button></div>}
+        {modal && <div className="errors-modal"><p className="modal-text">{errorMessage}</p><button className="modal-button simple--button" onClick={handleModal} >x</button></div>}
     </div>
 }
