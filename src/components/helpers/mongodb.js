@@ -1,8 +1,12 @@
 import axios from "axios";
 import { Auth } from 'aws-amplify';
 
+/* const URL = "http://localhost:3001"; */
+const URL = "http://13.38.229.214";
+/* const URL = "http://ec2-13-38-229-214.eu-west-3.compute.amazonaws.com"; */
+
 const postNewUrl = async (body) => {
-    const response = await axios.post(`http://localhost:3001/api/urls/newregister`,body);
+    const response = await axios.post(`${URL}/api/urls/newregister`,body);
     return response
 }
 
@@ -10,13 +14,13 @@ const getUrls = async () => {
     const userdata = await Auth.currentSession();
     const token = userdata.getAccessToken();
     const userdatas = await Auth.currentUserInfo();//gets logged users data
-    const response = await axios.get(`http://localhost:3001/api/logged/urls/${userdatas.username}/all`, 
+    const response = await axios.get(`${URL}/api/logged/urls/${userdatas.username}/all`, 
     { headers: {"Authorization" : `${token.jwtToken}`} });
     return (response)
 }
 
 const getLongUrl = async (shorturl) => {
-    const response = await axios.get(`http://localhost:3001/api/urls/yus/${shorturl}`);
+    const response = await axios.get(`${URL}/api/urls/yus/${shorturl}`);
      
     return response
 }
@@ -24,7 +28,7 @@ const getLongUrl = async (shorturl) => {
 const modifyUrl = async (id,newshorturl) => {
     const userdata = await Auth.currentSession();
     const token = userdata.getAccessToken();
-    const response = await axios.put(`http://localhost:3001/api/logged/urls/modify/${id}/${newshorturl}`,{data:{}}, 
+    const response = await axios.put(`${URL}/api/logged/urls/modify/${id}/${newshorturl}`,{data:{}}, 
     { headers: {Authorization : `${token.jwtToken}`} });
     return response.data.message
 }
@@ -33,7 +37,7 @@ const deleteUrl = async (body) => {
     const token = userdata.getAccessToken();
     const response = await axios({
     method: 'delete', //you can set what request you want to be
-    url: `http://localhost:3001/api/logged/urls/delete`,
+    url: `${URL}/api/logged/urls/delete`,
     data: {body},
     headers: {
         Authorization : `${token.jwtToken}`
