@@ -9,7 +9,7 @@ import global_en from "./translations/en/global.json";
 
 import App from './App.jsx';
 import { Amplify } from 'aws-amplify';
-import awsExports from './aws-exports';
+/* import awsExports from './aws-exports'; */
 Amplify.configure(JSON.parse(process.env.REACT_APP_AWS_EXPORT));
 i18next.init({
   interpolation: { escapeValue: false },
