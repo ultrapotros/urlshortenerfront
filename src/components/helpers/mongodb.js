@@ -3,7 +3,7 @@ import { Auth } from 'aws-amplify';
 
 /* const URL = "http://localhost:3001"; */
 /* const URL = "https://13.38.229.214"; */
-const URL = "http://ec2-13-38-229-214.eu-west-3.compute.amazonaws.com";
+const URL = "https://ec2-13-38-229-214.eu-west-3.compute.amazonaws.com";
 
 const postNewUrl = async (body) => {
     const response = await axios.post(`${URL}/api/urls/newregister`,body);
