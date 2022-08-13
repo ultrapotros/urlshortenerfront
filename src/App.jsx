@@ -18,7 +18,6 @@ export const Logged = createContext(false);
 export default function App(){
     const [user, setUser] = useState('nouser');
     const [logged, setLogged] = useState(false);
-
     async function iscurrentSession() {
         try {
             await Auth.currentSession();//checks there's a valid user logged and if its session is still valid

@@ -101,7 +101,6 @@ export default function Urls() {
           setUser({})
       }
     }
-
     useEffect(async () => {
       await iscurrentSession();
     }, [])  
