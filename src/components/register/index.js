@@ -6,6 +6,7 @@ import { Logged } from '../../App';
 import { useNavigate } from 'react-router-dom';
 import postNewUser from '../helpers/postNewUser';
 import postLogin from '../helpers/postLogin';
+import { useTranslation } from "react-i18next";
 import md5 from 'md5';
 import axios from "axios";
 
@@ -20,6 +21,7 @@ export default function FormRegister(props) {
     const [ user, setUser ] = useContext(Context);
     const [ logged, setLogged ] = useContext(Logged);
     const navigate = useNavigate();
+    const [t] = useTranslation("global");
     const password = useRef({}); // to compare and confirm password and email
     password.current = watch("password", "");
     const email = useRef({});
@@ -35,7 +37,7 @@ export default function FormRegister(props) {
                 if (newData.status === 200 ) {
                     postLogin(userData.username, userData.password)
                     .then((response) => {
-                            setUser(newData.data.usuario);
+                            setUser({user:newData.data.usuario, token:''});
                             console.log(response.data[1]);
                             const usertolocal = {...response.data[1]}
                             console.log(usertolocal);
@@ -69,57 +71,57 @@ export default function FormRegister(props) {
 
     // post para ingresar el nuevo usario;
 
-    return (<div className='form--main'>
+    return (<div className='container'>
         <form className='form--login' onSubmit={handleSubmit(onSubmit)} >
             {/* User Name */}
-            <input spellCheck="false" className='form--input' type="text" placeholder="Nombre de usuario" {
+            <input spellCheck="false" className='form--input' type="text" placeholder={t("form.username")} {
                 ...register("username",
                     {
-                        required: { value: true, message: 'Campo requerido' },
-                        maxLength: { value: 20, message: 'Tamaño maximo 20' }
+                        required: { value: true, message: `${t("formserrors.required")}` },
+                        maxLength: { value: 20, message: `${t("formserrors.maxlength")}20` }
                     })} />
-                    {errors.username && <div className='login--message-errors'><p>{errors.username.message}</p></div>}
+                    {errors.username && <div className='form--message-errors'><p>{errors.username.message}</p></div>}
             {/* Email */}
             <input spellCheck="false" className='form--input' type="text" placeholder="Email" {
                 ...register("email",
                     {
-                        required: { value: true, message: 'Campo requerido' },
-                        pattern: { value: /^\w+([\.\+\-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/, message: 'Formato no correcto' }
+                        required: { value: true, message: `${t("formserrors.required")}` },
+                        pattern: { value: /^\w+([\.\+\-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/, message: `${t("formserrors.wrongformat")}`}
                     })} />
-            {errors.email && <div className='login--message-errors'><p >{errors.email.message}</p></div>}
+            {errors.email && <div className='form--message-errors'><p >{errors.email.message}</p></div>}
             {/* Repeat Email */}
-            <input spellCheck="false" className='form--input' type="text" placeholder="Email" {
+            <input spellCheck="false" className='form--input' type="text" placeholder={t("form.emailcheck")} {
                 ...register("emailrepeated",
                     {
-                        required: { value: true, message: 'Campo requerido' },
+                        required: { value: true, message: `${t("formserrors.required")}` },
                         validate: value =>
-                        value === email.current || "los emails no coinciden"
+                        value === email.current || `${t("formserrors.emailnotmatch")}`
                     })} />
-            {errors.emailrepeated && <div className='login--message-errors'><p >{errors.emailrepeated.message}</p></div>}
+            {errors.emailrepeated && <div className='form--message-errors'><p >{errors.emailrepeated.message}</p></div>}
 
             {/* Password */}
-            <input spellCheck="false" className='form--input' type="password" placeholder="Contraseña" {
+            <input spellCheck="false" className='form--input' type="password" placeholder={t("form.password")} {
                 ...register("password",
                     {
-                        required: { value: true, message: 'Campo requerido' },
-                        minLength: { value: 6, message: 'La contraseña tiene que tener al menos 6 caracteres' },
-                        maxLength: { value: 20, message: 'Tamaño maximo 20' }
+                        required: { value: true, message: `${t("formserrors.required")}` },
+                        minLength: { value: 4, message: `${t("formserrors.minlength")}4` },
+                        maxLength: { value: 20, message: `${t("formserrors.maxlength")}20` }
                     })} />
-            {errors.password && <div className='login--message-errors'><p >{errors.password.message}</p></div>}
+            {errors.password && <div className='form--message-errors'><p >{errors.password.message}</p></div>}
             {/* Password Repeat*/}
 
-            <input spellCheck="false" className='form--input' type="password" placeholder="Repite contraseña" {
+            <input spellCheck="false" className='form--input' type="password" placeholder={t("form.passwordcheck")} {
                 ...register("passwordRepeat",
                     {
-                        required: { value: true, message: 'Campo requerido' },
+                        required: { value: true, message: `${t("formserrors.required")}` },
                         validate: value =>
-                            value === password.current || "las contraseñas no coinciden"
+                            value === password.current || `${t("formserrors.passwordnotmatch")}`
                     })} />
-            {errors.passwordRepeat && <div className='login--message-errors'><p >{errors.passwordRepeat.message}</p></div>}
+            {errors.passwordRepeat && <div className='form--message-errors'><p >{errors.passwordRepeat.message}</p></div>}
 
-            <input type="submit" className='login--button' />
+            <input type="submit" className='login--button' value= {t("buttons.send")}/>
         </form>
-        <button className='login--button login--navigation' onClick={() => navigate('/')}>Volver</button>
+        <button className='login--button login--navigation' onClick={() => navigate('/')}>{t("buttons.back")}</button>
     </div>
     );
 }

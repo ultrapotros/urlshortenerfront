@@ -3,7 +3,7 @@ import getUserUrls from '../helpers/getUserUrls';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { Context } from '../../App';
-
+import { useTranslation } from "react-i18next";
 
 import { useForm } from 'react-hook-form';
 
@@ -11,10 +11,10 @@ export default function Profile() {
   const [user, setUser] = useContext(Context);
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
-  console.log(user);
+  const [t] = useTranslation("global");
   
-  const handleurls = async ()=> {
-    await getUserUrls(user.username)
+/*   const handleurls = async ()=> {
+    await getUserUrls(user.user.username,loggedUser)
       .then((data)=> {
         console.log(data.data.userurls)
       })
@@ -22,29 +22,21 @@ export default function Profile() {
         console.log(error)
       })
   }
-
-  const loggedUserJSON = window.localStorage.getItem('userlogged');
+ */
+/*   const loggedUserJSON = window.localStorage.getItem('usertoken');
   const loggedUser= JSON.parse(loggedUserJSON);
+  console.log(loggedUser) */
+
   const userdata = {                      
-      username: user.username,
-      email: user.email,
-      premium: user.premium,
-      password: user.password,
+      username: user.user.username,
+      email: user.user.email,
+      premium: user.user.premium,
+      password: user.user.password,
   }
 
   const handleButton = ()=> {
     navigate(`/${userdata.username}/urls`)
   }
- 
-/*     const loggedUserJSON = window.localStorage.getItem('userlogged');
-    const loggedUser= JSON.parse(loggedUserJSON);
-    const userdata = {                      
-        username: loggedUser.username,
-        email: loggedUser.email,
-        premium: loggedUser.premium,
-        password: loggedUser.password,
-    } */
-    console.log(userdata.username)
  
   return (
     
@@ -52,12 +44,12 @@ export default function Profile() {
       {/* <Header /> */}
       <main className='personal-data'>
         <h1 className='tittle'>
-          Mis Datos
+        {t("personalmain.title")}
         </h1>
-        <p>Nombre de usuario: {userdata.username}</p>
+        <p>{t("personalmain.name")}: {userdata.username}</p>
         <p>Email: {userdata.email}</p>
-        <button onClick={handleButton} >Mis Urls</button>
-        <button onClick={()=>navigate('/')} >Recortar Url</button>
+        <button className="nbutton"onClick={handleButton} >{t("buttons.myurls")}</button>
+        <button className="nbutton"onClick={()=>navigate('/')} >{t("buttons.shorturl")}</button>
 
       </main>
     </div>

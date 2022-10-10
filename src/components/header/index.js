@@ -1,7 +1,7 @@
 import './header.css'
 import { useContext , useState, useEffect} from 'react';
 import { NavLink} from 'react-router-dom';
-
+import { useTranslation } from "react-i18next";
 import {Context} from '../../App';
 import {Logged} from '../../App';
 
@@ -9,6 +9,7 @@ export default function Header(){
     const data =  useContext(Context); //logged user data
     const [user,setUser] = useContext(Context);
     const [logged, setLogged] = useContext(Logged);
+    const [t, i18n] = useTranslation("global");
     /* const [logged, setLogged] = useState(false); */
   /*   const loggedUserJSON = window.localStorage.getItem('userlogged');
     if (loggedUserJSON) {
@@ -37,10 +38,14 @@ export default function Header(){
     return(
         <div className='top-header'>
             <nav className='header-nav'>
-                {logged ? <NavLink className='name' to ={`/${user.username}/profile`}>Profile</NavLink> : 
-                <NavLink className='name' to ={`/register`}>Register</NavLink>} {/* aqui hay que redireccionar al componente con el formulario de registro */}
-                {logged ? <NavLink className='logout' to ={`/`} onClick = {handleLogout}>logout</NavLink> : 
-                <NavLink className='logout' to ={`/login`} onClick = {handleLogin}>login</NavLink>}
+                {logged ? <NavLink className='name' to ={`/${user.username}/profile`}>{t("header.profile")}</NavLink> : 
+                <NavLink className='name' to ={`/register`}>{t("header.register")}</NavLink>} {/* aqui hay que redireccionar al componente con el formulario de registro */}
+                {logged ? <NavLink className='logout' to ={`/`} onClick = {handleLogout}>{t("header.logout")}</NavLink> : 
+                <NavLink className='logout' to ={`/login`} onClick = {handleLogin}>{t("header.login")}</NavLink>}
+                <div className='language--buttons'>
+                    <button onClick={()=>i18n.changeLanguage('es')}>ES</button>
+                    <button onClick={()=>i18n.changeLanguage('en')}>EN</button>
+                </div>
             </nav>
         </div>
     )

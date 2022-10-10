@@ -25,6 +25,7 @@
   
   body {
     margin: 0;
+    background-color: var(--main-yellow);
   }
   
   /**
@@ -373,7 +374,16 @@
     --headerbuttons:#B3B6DC;
     --main: #acb0e6;
     --main-blue: #2848DD;
+    --main-yellow: #ddbd28;
   }
+  /*triadic
+    /* .color-1 {color: #2848dd;}
+    .color-2 {color: #dd2848;}
+    .color-3 {color: #48dd28;} */
+  /* complementary
+  #2848dd
+  #ddbd28  */
+
 
   h1 {
     color: var(--color10)
@@ -386,7 +396,7 @@
   }
   /**Custom code for buttons **/
 
-  button{
+  .nbutton{
     position: relative;
     display: inline-block;
   /*   margin: 15px; */
@@ -407,8 +417,8 @@
     width: fit-content;
   }
 
-button::after,
-button::before {
+.nbutton::after,
+.nbutton::before {
     position: absolute;
     content: "";
     width: 0;
@@ -416,26 +426,26 @@ button::before {
     transition: .5s;
 }
 
-button::after {
+.nbutton::after {
     top: -9px;
     left: -9px;
     border-top: 3px solid transparent;
     border-left: 3px solid transparent;
 }
 
-button::before {
+.nbutton::before {
     bottom: -9px;
     right: -9px;
     border-bottom: 3px solid transparent;
     border-right: 3px solid transparent;
 }
 
-button:hover {
+.nbutton:hover {
     color: #222222;
 }
 
-button:hover::after,
-button:hover::before {
+.nbutton:hover::after,
+.nbutton:hover::before {
     width: calc(100% + 15px);
     height: calc(100% + 15px);
     border-color: #222222;
