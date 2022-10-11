@@ -41,8 +41,8 @@ export default function App(){
                             <Route exact path="/" element={<HomePage />} />
                             <Route path="/register" element={<FormRegister />} />
                             <Route path="/login" element={<FormLogin />} />
-                            <Route path="/:username/profile" element={<Profile/>} />
-                            <Route path="/:username/urls" element={<Urls/>} />
+                            <Route path="/profile/:username" element={<Profile/>} />
+                            <Route path="/urls/:username" element={<Urls/>} />
                             <Route path="/:shortid" element={<Redirect/>} />
                         </Routes>
                     </Router>

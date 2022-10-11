@@ -56,9 +56,6 @@
     place-items: center;
 /*     place-content: center; */
 }
-.simple--button :hover{
-    cursor: pointer;
-}
 
 @media screen
   and (max-device-width: 540px)

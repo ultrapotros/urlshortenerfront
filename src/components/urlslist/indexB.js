@@ -6,13 +6,9 @@ import { useNavigate } from 'react-router-dom';
 import { Context } from '../../App';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
-import  CopyToClipboard  from 'react-copy-to-clipboard';
-import {
-  SettingsOutlined,
-  DeleteOutlined,
-  ContentCopyRounded
-} from "@mui/icons-material";
 import './urlslist.css';
+import '../../index.css';
+/* import '../../../src/normalize.css' */
 
 export default function Urls() {
   const [user, setUser] = useContext(Context);
@@ -47,15 +43,11 @@ export default function Urls() {
         })   
     }
 
-    const handleCopy = ()=> {
-      setConfirmMessage(t("modals.copied"))
-      setConfirmModal(true)
-    }
-
     useEffect(() => {
         
         handleUrls();
     }, [])
+            
 
     const handleModify = async (i)=> {
       setUrlindex(i);
@@ -120,52 +112,38 @@ export default function Urls() {
     return (
     
       <div className='container'>
-      <h1 className='urls-main--title'>{t("urlslist.title")}</h1>
+      <h1 className='title'>{t("urlslist.title")}</h1>
       <main className='personal-urls'>
         {isurls? <div className='long-urls'>
-          <div className='personal-urls--titles'>
-              <h3 className='title-b'> {t("urlslist.longurls")}</h3>
-              <h3 className='title-b'> {t("urlslist.shorturls")}</h3>
-              <h3 className='title-b'> {t("urlslist.clicks")}</h3>
-              <h3 className='title-b'></h3>
-          </div>
+          <h2 className='title-b'> {t("urlslist.longurls")}</h2>
             <ul className='urls-list'>
                 {urls.map((element, index)=> 
                   <li key={index} className='urls-list-row'>
-                    <div className='urls-list-column url'>{element.url}</div> 
-                    {/* once deployed you only have to change text parameter */}
-                    <div className='urls-list-column short_url'>
-                      <p>{`yus.${element.shorturl}`}</p>   
-                      <div  className='simple--button'>
-                        <CopyToClipboard text={`http://localhost:3000/${element.shorturl}`} onCopy={handleCopy}>
-                          <ContentCopyRounded/>
-                        </CopyToClipboard>
-                      </div>
-                    </div>
+                    <div className='urls-list-column'>{element.url}</div>
+                    <div className='urls-list-column'>{element.shorturl}</div>
                     <div className='urls-list-column'>{element.clicksCounter}</div>
                     <div className='urls-list-buttons'>
-                      <div className='simple--button' ><SettingsOutlined onClick={()=>handleModify(index)}/></div>
-                      <div className='simple--button' ><DeleteOutlined onClick={()=>handleDelete(index)}/></div>
+                      <button className='delete-url nbutton' onClick={()=>handleModify(index)}>{t("buttons.modify")}</button>
+                      <button className='delete-url nbutton' onClick={()=>handleDelete(element._id)}>{t("buttons.delete")}</button>
                     </div>
                   </li>)}
             </ul>
         </div> : <h3>Charging...</h3>}
       </main>
       <button className="nbutton" onClick={handleButton} >{t("buttons.back")}</button>
-      {errorModal && <div className="errors-modal"><span className="modal-text">{errorMessage}</span><button className="modal-button simple--button"onClick={()=>setErrorModal(!errorModal)} >x</button></div>}
-      {confirmModal && <div className="confirm-modal"><span className="modal-text">{confirmMessage}</span><button className="modal-button simple--button"onClick={()=>setConfirmModal(!confirmModal)} >x</button></div>}
-      
-      {/* modal to customize shorturl */}
+      {errorModal && <div className="errors-modal modal"><span className="modal-text">{errorMessage}</span><button className="modal-button simple--button"onClick={()=>setErrorModal(!errorModal)} >x</button></div>}
+      {confirmModal && <div className="confirm-modal modal"><span className="modal-text">{confirmMessage}</span><button className="modal-button simple--button"onClick={()=>setConfirmModal(!confirmModal)} >x</button></div>}
+      {modal && <div className="modal"><p className="modal-text">{t("modals.deleted")}</p><button onClick={handleModal} >x</button></div>}
       {modify && <form className='form--login modal' onSubmit={handleSubmit(onSubmit)} >
-            {/* Original Url */}
+            {/* User Name */}
             <input spellCheck="false" className='form--input' type="text" value={urls[urlindex].url} disabled{
                 ...register("url")} />
-            {/* Current Short Urls: */}
+            {/* User Name */}
             <input spellCheck="false" className='form--input' type="text" value={urls[urlindex].shorturl} disabled{
                 ...register("shorturl")} />
                   
 
-            {/* New Short Url */}
+            {/* Password */}
             <input spellCheck="false" className='form--input' type="text" placeholder={t("form.modify")} {
                 ...register("newurl",
                     {
@@ -173,9 +151,9 @@ export default function Urls() {
                         minLength: { value: 4, message: `${t("formserrors.minlegth")}4`},
                         maxLength: { value: 8, message: `${t("formserrors.maxlength")}8` }
                     })} />
-            {errors.newurl && <button onClick={()=>clearErrors()}><div className='form--message-errors'><p >{errors.newurl.message}</p></div></button> }
+            {errors.newurl && <button onClick={()=>clearErrors()} ><div className='form--message-errors'><p >{errors.newurl.message}</p></div></button>}
 
-            <input type="submit" className='modify--button simple--button' value={t("buttons.send")}/>
+            <input type="submit" className='login--button' value={t("buttons.send")}/>
         </form>}
     </div>
   );

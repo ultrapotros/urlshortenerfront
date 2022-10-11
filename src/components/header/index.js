@@ -38,7 +38,7 @@ export default function Header(){
     return(
         <div className='top-header'>
             <nav className='header-nav'>
-                {logged ? <NavLink className='name' to ={`/${user.username}/profile`}>{t("header.profile")}</NavLink> : 
+                {logged ? <NavLink className='name' to ={`/profile/${user.username}`}>{t("header.profile")}</NavLink> : 
                 <NavLink className='name' to ={`/register`}>{t("header.register")}</NavLink>} {/* aqui hay que redireccionar al componente con el formulario de registro */}
                 {logged ? <NavLink className='logout' to ={`/`} onClick = {handleLogout}>{t("header.logout")}</NavLink> : 
                 <NavLink className='logout' to ={`/login`} onClick = {handleLogin}>{t("header.login")}</NavLink>}

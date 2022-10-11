@@ -35,7 +35,7 @@ export default function Profile() {
   }
 
   const handleButton = ()=> {
-    navigate(`/${userdata.username}/urls`)
+    navigate(`/urls/${userdata.username}`)
   }
  
   return (
