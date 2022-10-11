@@ -31,7 +31,7 @@ export default function Urls() {
  
  
     const handleButton = ()=> {
-        navigate(`/${user.user.username}/profile`)
+        navigate(`/profile/${user.user.username}`)
     }
 
     const handleUrls = async () => {
@@ -79,15 +79,7 @@ export default function Urls() {
       })
     }
 
-    /* const onSubmit = async (data) => {
-      await modifyUrl(urls[urlindex]._id, data.newurl, user.token )
-          .then ((newData) => {
-              console.log('**********Onsubmit'+newData);
-              if(newData.data.message === 'Already exists') console.log(newData.data.message)
-              setModify(false);
-              handleUrls();
-          })
-  }; */
+
   const onSubmit = async (data) => {
     try{
         const res = await modifyUrl(urls[urlindex]._id, data.newurl, user.token )
@@ -122,34 +114,39 @@ export default function Urls() {
       <div className='container'>
       <h1 className='urls-main--title'>{t("urlslist.title")}</h1>
       <main className='personal-urls'>
-        {isurls? <div className='long-urls'>
-          <div className='personal-urls--titles'>
-              <h3 className='title-b'> {t("urlslist.longurls")}</h3>
-              <h3 className='title-b'> {t("urlslist.shorturls")}</h3>
-              <h3 className='title-b'> {t("urlslist.clicks")}</h3>
-              <h3 className='title-b'></h3>
-          </div>
-            <ul className='urls-list'>
-                {urls.map((element, index)=> 
-                  <li key={index} className='urls-list-row'>
-                    <div className='urls-list-column url'>{element.url}</div> 
-                    {/* once deployed you only have to change text parameter */}
-                    <div className='urls-list-column short_url'>
-                      <p>{`yus.${element.shorturl}`}</p>   
-                      <div  className='simple--button'>
-                        <CopyToClipboard text={`http://localhost:3000/${element.shorturl}`} onCopy={handleCopy}>
-                          <ContentCopyRounded/>
-                        </CopyToClipboard>
+        {isurls? 
+          <div className='long-urls'>
+            {isurls.maxLength > 0 ?  
+            <div className='personal-urls--titles'>
+                <h3 className='title-b'> {t("urlslist.longurls")}</h3>
+                <h3 className='title-b'> {t("urlslist.shorturls")}</h3>
+                <h3 className='title-b'> {t("urlslist.clicks")}</h3>
+                <h3 className='title-b'></h3>
+            </div>:
+            <h3 className='title-b'> {t("urlslist.nourls")}</h3>         
+            }
+              <ul className='urls-list'>
+                  {urls.map((element, index)=> 
+                    <li key={index} className='urls-list-row'>
+                      <div className='urls-list-column url'>{element.url}</div> 
+                      {/* once deployed you only have to change text parameter */}
+                      <div className='urls-list-column short_url'>
+                        <p>{`yus.${element.shorturl}`}</p>   
+                        <div  className='simple--button'>
+                          <CopyToClipboard text={`http://localhost:3000/${element.shorturl}`} onCopy={handleCopy}>
+                            <ContentCopyRounded/>
+                          </CopyToClipboard>
+                        </div>
                       </div>
-                    </div>
-                    <div className='urls-list-column'>{element.clicksCounter}</div>
-                    <div className='urls-list-buttons'>
-                      <div className='simple--button' ><SettingsOutlined onClick={()=>handleModify(index)}/></div>
-                      <div className='simple--button' ><DeleteOutlined onClick={()=>handleDelete(index)}/></div>
-                    </div>
-                  </li>)}
-            </ul>
-        </div> : <h3>Charging...</h3>}
+                      <div className='urls-list-column'>{element.clicksCounter}</div>
+                      <div className='urls-list-buttons'>
+                        <div className='simple--button' ><SettingsOutlined onClick={()=>handleModify(index)}/></div>
+                        <div className='simple--button' ><DeleteOutlined onClick={()=>handleDelete(index)}/></div>
+                      </div>
+                    </li>)}
+              </ul>
+          </div> : 
+          <h3>Charging...</h3>}
       </main>
       <button className="nbutton" onClick={handleButton} >{t("buttons.back")}</button>
       {errorModal && <div className="errors-modal"><span className="modal-text">{errorMessage}</span><button className="modal-button simple--button"onClick={()=>setErrorModal(!errorModal)} >x</button></div>}

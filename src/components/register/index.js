@@ -33,15 +33,34 @@ export default function FormRegister(props) {
         userData.email = data.email
         await postNewUser(userData)
             .then ((newData) => {
+                console.log(newData);
                 console.log(newData.status);
+                if (newData.data.message) {
+                    alert('no entro');
+                    return
+                }
+                if (newData.data.message === 'Email already registered') {
+                    alert('Email already registered');
+                    return;
+                }
+                if (newData.data.message === 'User already exists') {
+                    alert('User already exists');
+                    return;
+                }
                 if (newData.status === 200 ) {
                     postLogin(userData.username, userData.password)
-                    .then((response) => {
-                            setUser({user:newData.data.usuario, token:''});
+                    .then((newData) => {
+/*                             setUser({user:newData.data.usuario, token:''});
                             console.log(response.data[1]);
                             const usertolocal = {...response.data[1]}
                             console.log(usertolocal);
                             window.localStorage.setItem('userlogged',JSON.stringify(usertolocal));  
+                            setLogged(true);
+                            navigate('/'); */
+                            const userContext = {user:newData.data[1], token:newData.data[0]}
+                            setUser(userContext);
+                            window.localStorage.setItem('userlogged',JSON.stringify(newData.data[1]));  
+                            window.localStorage.setItem('usertoken',JSON.stringify(newData.data[0]));  
                             setLogged(true);
                             navigate('/');
                         })
