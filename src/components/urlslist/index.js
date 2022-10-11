@@ -7,6 +7,7 @@ import { Context } from '../../App';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
 import './urlslist.css';
+import '../../index.css';
 /* import '../../../src/normalize.css' */
 
 export default function Urls() {
@@ -87,6 +88,7 @@ export default function Urls() {
           console.log('////////////////already exist/////////////')
           setErrorMessage(t("modals.short-exists"));
           setErrorModal(true);
+
         }
         else if (res.data.message === "updated") {
           console.log('////////////////updated/////////////')

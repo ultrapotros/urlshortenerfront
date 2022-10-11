@@ -21,14 +21,7 @@
 .urls-list-buttons button {
     font-size: .8rem;
 }
-.modal {
-    position: absolute;
-    display: flex;
-    top: 40vh;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-}
+
 .container {
     justify-content: flex-start;
 }
@@ -92,6 +85,12 @@
     place-items: center;
 /*     place-content: center; */
 }
+.errors-modal {
+    background-color: red;
+    padding: .5rem;
+    border-radius:1rem;
+    z-index:2
+  }
 
 @media screen
   and (max-device-width: 540px)
