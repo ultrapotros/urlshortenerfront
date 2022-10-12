@@ -8,7 +8,6 @@ import Profile from './components/profile/index';
 import HomePage from './components/homepage';
 import Redirect from './components/redirect';
 import Urls from './components/urlslist'
-import PageNotFound from './components/404';
 export const Context = createContext({});
 export const Logged = createContext(false);
 
@@ -19,7 +18,6 @@ export default function App(){
 
 
     useEffect(() => {
-        console.log('dentro del useEffect')
         const loggedUserJSON = window.localStorage.getItem('userlogged');
         const userTokenJSON = window.localStorage.getItem('usertoken');
         if (loggedUserJSON) {
@@ -48,7 +46,7 @@ export default function App(){
                     </Router>
                 </Logged.Provider>
             </Context.Provider>
-        {/* } */}
+
         </>
     )
     }

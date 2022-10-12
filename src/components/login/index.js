@@ -27,7 +27,7 @@ export default function FormLogin() {
     const onSubmit = async (data) => {
         await postLogin(data.username, md5(data.password))
             .then ((newData) => {
-                console.log(newData.status);
+
                 if (newData.status === 200 ) {
                     const userContext = {user:newData.data[1], token:newData.data[0]}
                     setUser(userContext);
@@ -39,19 +39,14 @@ export default function FormLogin() {
                 else if (newData.status === 206) {
                     setViewModal(true)
                     if (newData.data.nouser) {
-                        console.log('no existe usuario')
                         setErrorMessage(t("modals.nouser"))
                     }
                     else {
                         setErrorMessage(t("modals.wrongpassword"))
-                        console.log('contraseña equivocada')
                     }
-                    console.log(newData)
                 }
             })
     };
-
-    // post para ingresar el nuevo usario;
 
     return (<div className='container'>
         <form className='form--login' onSubmit={handleSubmit(onSubmit)} >

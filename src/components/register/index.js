@@ -16,7 +16,6 @@ import axios from "axios";
  * @returns component react
  */
 export default function FormRegister(props) {
-    // login or new user discriminator
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [ user, setUser ] = useContext(Context);
     const [ logged, setLogged ] = useContext(Logged);
@@ -32,13 +31,9 @@ export default function FormRegister(props) {
         userData.password = md5(data.password);
         userData.email = data.email
         await postNewUser(userData)
+
             .then ((newData) => {
-                console.log(newData);
-                console.log(newData.status);
-                if (newData.data.message) {
-                    alert('no entro');
-                    return
-                }
+
                 if (newData.data.message === 'Email already registered') {
                     alert('Email already registered');
                     return;
@@ -50,13 +45,6 @@ export default function FormRegister(props) {
                 if (newData.status === 200 ) {
                     postLogin(userData.username, userData.password)
                     .then((newData) => {
-/*                             setUser({user:newData.data.usuario, token:''});
-                            console.log(response.data[1]);
-                            const usertolocal = {...response.data[1]}
-                            console.log(usertolocal);
-                            window.localStorage.setItem('userlogged',JSON.stringify(usertolocal));  
-                            setLogged(true);
-                            navigate('/'); */
                             const userContext = {user:newData.data[1], token:newData.data[0]}
                             setUser(userContext);
                             window.localStorage.setItem('userlogged',JSON.stringify(newData.data[1]));  
@@ -67,28 +55,9 @@ export default function FormRegister(props) {
                 }
 
             })
-/*         await axios({
-            method: 'post',
-            url: 'https://enterprisecompany-server.herokuapp.com/v1/users/create',
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data: {
-                username: userData.username,
-                email: userData.email,
-                password: userData.password,
-            }
-        }).then((res) => {
-            if (res.status === 201) {
-                console.log('j');
-                }
-            } 
-        ) */
+
     };
 
-    // post para ingresar el nuevo usario;
 
     return (<div className='container'>
         <form className='form--login' onSubmit={handleSubmit(onSubmit)} >

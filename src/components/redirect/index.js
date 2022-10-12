@@ -18,6 +18,6 @@ export default function Redirect() {
          handleredirect();
     }, [])
     return <div>
-        <h1 /* onLoadEnd={handleredirect()} */>Redirecting...</h1>
+        <h1>Redirecting...</h1>
     </div>
 }

@@ -1,7 +1,6 @@
 import './homepage.css'
 import postNewUrl from '../helpers/postNewUrl';
-import { useContext, useEffect , useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useState} from 'react';
 import  CopyToClipboard  from 'react-copy-to-clipboard';
 import { Context } from '../../App';
 import { Logged } from '../../App';
@@ -15,32 +14,19 @@ export default function HomePage() {
   const [created, setCreated] = useState(false);
   const [shorturl, setShorturl] = useState('');
   const { register, handleSubmit, reset, formState: { errors } } = useForm({defaultValues:{url:''}});
-  const navigate = useNavigate();
   const [t] = useTranslation("global");
+
   const handleNewUrl = async (data)=> {
+
     const body = {                      
         username: logged? user.user.username : '',
         url: data.url
     }
-    /* data.url =''; */
-    console.log(body)
     const response = await postNewUrl(body)
-    console.log(response)
     setShorturl(response.shorturl);
     setViewmodal(true);
     if (response.data.message==='Successfully shortened')setCreated(true);
     
-/*     await postNewUrl(body)
-    .then ((newData) => {
-            console.log('reponse received')
-            setShorturl(newData.data.registro.shorturl);
-            setViewmodal(true);
-            setCreated(true);
-        })
-        .catch((err) => {
-          setViewmodal(true)
-          console.log(err)
-        }) */
   }
   const handleModal =  ()=> {
     setViewmodal(false);
@@ -48,14 +34,6 @@ export default function HomePage() {
       url: ''
     })
   }
-/*   useEffect( () => {
-    console.log('dentro del useEffect del homepage')
-    console.log(viewmodal);
-    reset({
-      url: ''
-    })
-  
-}, [shorturl, viewmodal]) */
  
   return (
     

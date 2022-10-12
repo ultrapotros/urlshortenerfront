@@ -12,20 +12,7 @@ export default function Profile() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
   const [t] = useTranslation("global");
-  
-/*   const handleurls = async ()=> {
-    await getUserUrls(user.user.username,loggedUser)
-      .then((data)=> {
-        console.log(data.data.userurls)
-      })
-      .catch((error)=> {
-        console.log(error)
-      })
-  }
- */
-/*   const loggedUserJSON = window.localStorage.getItem('usertoken');
-  const loggedUser= JSON.parse(loggedUserJSON);
-  console.log(loggedUser) */
+
 
   const userdata = {                      
       username: user.user.username,

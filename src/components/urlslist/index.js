@@ -37,7 +37,6 @@ export default function Urls() {
     const handleUrls = async () => {
       await getUserUrls(user.user.username,user.token)
       .then((data)=> {
-          console.log(data.data.userurls)
           setUrls(data.data.userurls)
           setIsurls(true)
         })   
@@ -67,12 +66,10 @@ export default function Urls() {
     }
 
     const handleDelete = async (shorturl)=> {
-      console.log('borra boton')
       const body = {"id":shorturl}
-      await deleteUrl(body,user.token).then((data)=>{
+      await deleteUrl(body,user.token).then(()=>{
         setModal(true)
         handleUrls();
-        console.log(data)
       })
       .catch((err)=>{
         console.log(err)
@@ -81,17 +78,15 @@ export default function Urls() {
 
 
   const onSubmit = async (data) => {
+
     try{
         const res = await modifyUrl(urls[urlindex]._id, data.newurl, user.token )
-        console.log(res)
         if (res.data.message === "Already exists") {
-          console.log('////////////////already exist/////////////')
           setErrorMessage(t("modals.short-exists"));
           setErrorModal(true);
 
         }
         else if (res.data.message === "updated") {
-          console.log('////////////////updated/////////////')
           setModify(false);
           setConfirmMessage(t("modals.short-modified"));
           setConfirmModal(true);
@@ -116,7 +111,7 @@ export default function Urls() {
       <main className='personal-urls'>
         {isurls? 
           <div className='long-urls'>
-            {isurls.maxLength > 0 ?  
+            {urls.length > 0 ?  
             <div className='personal-urls--titles'>
                 <h3 className='title-b'> {t("urlslist.longurls")}</h3>
                 <h3 className='title-b'> {t("urlslist.shorturls")}</h3>
@@ -149,8 +144,16 @@ export default function Urls() {
           <h3>Charging...</h3>}
       </main>
       <button className="nbutton" onClick={handleButton} >{t("buttons.back")}</button>
-      {errorModal && <div className="errors-modal"><span className="modal-text">{errorMessage}</span><button className="modal-button simple--button"onClick={()=>setErrorModal(!errorModal)} >x</button></div>}
-      {confirmModal && <div className="confirm-modal"><span className="modal-text">{confirmMessage}</span><button className="modal-button simple--button"onClick={()=>setConfirmModal(!confirmModal)} >x</button></div>}
+      {errorModal && 
+      <div className="errors-modal modal">
+        <span className="modal-text">{errorMessage}</span>
+        <button className="modal-button simple--button"onClick={()=>setErrorModal(!errorModal)} >x</button>
+      </div>}
+      {confirmModal && 
+      <div className="confirm-modal modal">
+        <span className="modal-text">{confirmMessage}</span>
+        <button className="modal-button simple--button"onClick={()=>setConfirmModal(!confirmModal)} >x</button>
+      </div>}
       
       {/* modal to customize shorturl */}
       {modify && <form className='form--login modal' onSubmit={handleSubmit(onSubmit)} >
@@ -170,7 +173,10 @@ export default function Urls() {
                         minLength: { value: 4, message: `${t("formserrors.minlegth")}4`},
                         maxLength: { value: 8, message: `${t("formserrors.maxlength")}8` }
                     })} />
-            {errors.newurl && <button onClick={()=>clearErrors()}><div className='form--message-errors'><p >{errors.newurl.message}</p></div></button> }
+            {errors.newurl && 
+            <button onClick={()=>clearErrors()}>
+              <div className='form--message-errors'><p >{errors.newurl.message}</p></div>
+            </button> }
 
             <input type="submit" className='modify--button simple--button' value={t("buttons.send")}/>
         </form>}
