@@ -8,6 +8,8 @@ import Profile from './components/profile/index';
 import HomePage from './components/homepage';
 import Redirect from './components/redirect';
 import Urls from './components/urlslist'
+import ChangePassword from './components/change-pasword/index';
+
 export const Context = createContext({});
 export const Logged = createContext(false);
 
@@ -41,6 +43,7 @@ export default function App(){
                             <Route path="/login" element={<FormLogin />} />
                             <Route path="/profile/:username" element={<Profile/>} />
                             <Route path="/urls/:username" element={<Urls/>} />
+                            <Route path="/resetpassword/:token" element={<ChangePassword />} />
                             <Route path="/:shortid" element={<Redirect/>} />
                         </Routes>
                     </Router>
