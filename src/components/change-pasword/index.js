@@ -36,27 +36,7 @@ export default function ChangePassword() {
         console.log(response)
 
 
-/*         await postLogin(data.username, md5(data.password))
-            .then ((newData) => {
 
-                if (newData.status === 200 ) {
-                    const userContext = {user:newData.data[1], token:newData.data[0]}
-                    setUser(userContext);
-                    window.localStorage.setItem('userlogged',JSON.stringify(newData.data[1]));  
-                    window.localStorage.setItem('usertoken',JSON.stringify(newData.data[0]));  
-                    setLogged(true);
-                    navigate('/');
-                }
-                else if (newData.status === 206) {
-                    setViewModal(true)
-                    if (newData.data.nouser) {
-                        setErrorMessage(t("modals.nouser"))
-                    }
-                    else {
-                        setErrorMessage(t("modals.wrongpassword"))
-                    }
-                }
-            }) */
     };
 
 

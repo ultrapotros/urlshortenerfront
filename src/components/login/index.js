@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import md5 from 'md5';
 import './login.css';
 import forgotPassword from '../helpers/forgotPassword';
+import { useRef } from 'react';
 
 /**
  * Component for the registration of new users
@@ -17,13 +18,15 @@ import forgotPassword from '../helpers/forgotPassword';
  */
 export default function FormLogin() {
     // login or new user discriminator
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, clearErrors, formState: { errors } } = useForm();
     const [ user, setUser ] = useContext(Context);
     const [ logged, setLogged ] = useContext(Logged);
+    const [ forgottenModal, setForgottenModal ] = useState(false);
     const [ viewModal, setViewModal ] = useState(false);
     const [ errorMessage, setErrorMessage ] = useState("");
     const navigate = useNavigate();
     const [t] = useTranslation("global");
+    const mail = useRef()
 
     const onSubmit = async (data) => {
         await postLogin(data.username, md5(data.password))
@@ -50,9 +53,9 @@ export default function FormLogin() {
     };
 
     const handleForgot = async ()=> {
-        console.log('en handleForgot')
-        const res = await forgotPassword({email:'potrosmezquita@hotmail.com'})
-        console.log(res)
+        const res = await forgotPassword({email:mail.current.value})
+        setErrorMessage(res.data)
+        setViewModal(true)
     }
 
     return (<div className='container'>
@@ -79,7 +82,12 @@ export default function FormLogin() {
             <input type="submit" className='login--button nbutton' value={t("buttons.send")}/>
         <button className='login--button login--navigation nbutton' onClick={() => navigate('/')}>{t("buttons.back")}</button>
         </form>
-        <button onClick={handleForgot} >Password forgotten??</button>
+        <button onClick={()=>setForgottenModal(true)} className='login--button login--navigation nbutton' >Password forgotten??</button>
+        {forgottenModal && <div className="login-modal" id="forgotten">
+            <input ref={mail} placeholder='email' />
+            <button onClick= {handleForgot}>Send</button>
+            <div onClick={()=>setForgottenModal(false)} className="login-modal--close">x</div>
+        </div>}
         {viewModal && <div className="login-modal">
             <span className="login-modal--message">{errorMessage}</span>
             <div onClick={()=>setViewModal(false)} className="login-modal--close">x</div>
