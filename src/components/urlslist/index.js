@@ -65,8 +65,8 @@ export default function Urls() {
         setModal(false)
     }
 
-    const handleDelete = async (shorturl)=> {
-      const body = {"id":shorturl}
+    const handleDelete = async (id)=> {
+      const body = {"id":id}
       await deleteUrl(body,user.token).then(()=>{
         setModal(true)
         handleUrls();
@@ -136,7 +136,7 @@ export default function Urls() {
                       <div className='urls-list-column'>{element.clicksCounter}</div>
                       <div className='urls-list-buttons'>
                         <div className='simple--button' ><SettingsOutlined onClick={()=>handleModify(index)}/></div>
-                        <div className='simple--button' ><DeleteOutlined onClick={()=>handleDelete(index)}/></div>
+                        <div className='simple--button' ><DeleteOutlined onClick={()=>handleDelete(element._id)}/></div>
                       </div>
                     </li>)}
               </ul>
