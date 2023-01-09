@@ -44,7 +44,7 @@ export default function App(){
                             <Route path="/profile/:username" element={<Profile/>} />
                             <Route path="/urls/:username" element={<Urls/>} />
                             <Route path="/resetpassword/:token" element={<ChangePassword />} />
-                            <Route path="/o/:shortid" element={<Redirect/>} />
+                            <Route path="/yus/:shortid" element={<Redirect/>} />
                         </Routes>
                     </Router>
                 </Logged.Provider>
