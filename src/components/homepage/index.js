@@ -23,9 +23,12 @@ export default function HomePage() {
         url: data.url
     }
     const response = await postNewUrl(body)
-    setShorturl(response.shorturl);
+    console.log(response)
+    setShorturl(`https://syurl.netlify.app/o/${response.data.shorturl}`);
     setViewmodal(true);
-    if (response.data.message==='Successfully shortened')setCreated(true);
+    if (response.data.createdAt)setCreated(true);
+    console.log(shorturl)
+    /* if (response.data.message==='Successfully shortened')setCreated(true); */
     
   }
   const handleModal =  ()=> {
