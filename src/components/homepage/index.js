@@ -65,7 +65,7 @@ export default function HomePage() {
           {viewmodal && <div className="modal">
               {created?             
               <CopyToClipboard text={shorturl} onCopy={handleModal}>
-                <div><p className="copy>">{t("modals.shortened")}{shorturl}</p>
+                <div className='copy-div'><p className="copy>">{t("modals.shortened")}{shorturl}</p>
                 <button className="copy">{t("buttons.copy")}</button></div>
               </CopyToClipboard> : 
               <p className="modal-content">{t("modals.alreadyshortened")}</p>}

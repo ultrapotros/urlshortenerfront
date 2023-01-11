@@ -1,5 +1,6 @@
 .modal {
     background-color: white;
+    border-radius: 1rem;
 }
 .modal-button {
     clip-path: circle(25%);
@@ -7,4 +8,7 @@
     top: 0;
     right: 0;
     cursor: pointer;
+}
+.copy-div {
+    padding: 1rem;
 }
