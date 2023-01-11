@@ -24,7 +24,7 @@ export default function HomePage() {
     }
     const response = await postNewUrl(body)
     console.log(response)
-    setShorturl(`https://syurl.netlify.app/o/${response.data.shorturl}`);
+    setShorturl(`https://urlshortenerfront-cjv1m61m4-ultrapotros.vercel.app/yus/${response.data.shorturl}`);
     setViewmodal(true);
     if (response.data.createdAt)setCreated(true);
     console.log(shorturl)
