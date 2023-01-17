@@ -4,6 +4,7 @@ import modifyUrl from '../helpers/modifyurl';
 import { useContext , useEffect , useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../../App';
+import { Logged } from '../../App';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
 import  CopyToClipboard  from 'react-copy-to-clipboard';
@@ -56,16 +57,33 @@ export default function Urls() {
         handleUrls();
     }, [])
 
-    const handleModify = async (i)=> {
+/*     const handleModify = async (i)=> {
       setUrlindex(i);
       setModify(true);
     }
-    
-    const handleModal = ()=> {
-        setModal(false)
+       */
+    const handleModify = async (i)=> {
+      setUrlindex(i);
+      setModify(!modify);
     }
-
+  
     const handleDelete = async (id)=> {
+      const body = {"_id":urls[id]._id}
+      await deleteUrl(body).then(()=>{
+        setConfirmMessage(t("modals.deleted"))
+        setConfirmModal(true)
+      })
+      await handleUrls()
+      .catch(()=>{
+        setErrorMessage(t("modals.somewrong"))
+      })
+    }
+/*     const handleCopy = ()=> {
+      setConfirmMessage(t("modals.copied"))
+      setConfirmModal(true)
+    } */
+
+/*     const handleDelete = async (id)=> {
       const body = {"id":id}
       await deleteUrl(body,user.token).then(()=>{
         setModal(true)
@@ -74,7 +92,7 @@ export default function Urls() {
       .catch((err)=>{
         console.log(err)
       })
-    }
+    } */
 
 
   const onSubmit = async (data) => {

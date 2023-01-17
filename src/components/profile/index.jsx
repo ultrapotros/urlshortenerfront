@@ -1,7 +1,6 @@
 import './profile.css'
-import getUserUrls from '../helpers/getUserUrls';
 import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext , useEffect } from 'react';
 import { Context } from '../../App';
 import { useTranslation } from "react-i18next";
 
@@ -9,7 +8,7 @@ import { useForm } from 'react-hook-form';
 
 export default function Profile() {
   const [user, setUser] = useContext(Context);
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [ logged, setLogged ] = useContext(Logged);
   const navigate = useNavigate();
   const [t] = useTranslation("global");
 
@@ -28,7 +27,6 @@ export default function Profile() {
   return (
     
     <div className='container'>
-      {/* <Header /> */}
       <main className='personal-data'>
         <h1 className='tittle'>
         {t("personalmain.title")}

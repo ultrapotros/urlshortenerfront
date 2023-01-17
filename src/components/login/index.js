@@ -1,6 +1,7 @@
 
 import React, { useContext , useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { loginUser } from '../helpers/cognito';
 import { Context } from '../../App';
 import { Logged } from '../../App';
 import { useNavigate } from 'react-router-dom';
@@ -11,11 +12,6 @@ import './login.css';
 import forgotPassword from '../helpers/forgotPassword';
 import { useRef } from 'react';
 
-/**
- * Component for the registration of new users
- * @params theme
- * @returns component react
- */
 export default function FormLogin() {
     // login or new user discriminator
     const { register, handleSubmit, clearErrors, formState: { errors } } = useForm();

@@ -1,8 +1,7 @@
 
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useState , useEffect } from 'react';
+import { registerUser , confirmUser } from '../helpers/cognito';
 import { useForm } from 'react-hook-form';
-import { Context } from '../../App';
-import { Logged } from '../../App';
 import { useNavigate } from 'react-router-dom';
 import postNewUser from '../helpers/postNewUser';
 import postLogin from '../helpers/postLogin';
@@ -17,15 +16,17 @@ import axios from "axios";
  */
 export default function FormRegister(props) {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const [ user, setUser ] = useContext(Context);
-    const [ logged, setLogged ] = useContext(Logged);
+    const [ usertoConfirm, setUsertoConfirm ] = useState();
+    const [ confirmModal, setConfirmModal ] = useState(false);
+    const [ errorModal, setErrorModal ] = useState(false);
+    const [ errorMessage, setErrorMessage ] = useState(false);
     const navigate = useNavigate();
     const [t] = useTranslation("global");
     const password = useRef({}); // to compare and confirm password and email
     password.current = watch("password", "");
     const email = useRef({});
+    const code = useRef({});
     email.current = watch("email", "");
-    let userData = { username: '', premium:false, password: '', email: '' };
     const onSubmit = async (data) => {
         userData.username = data.username;
         userData.password = md5(data.password);

@@ -5,17 +5,19 @@ import { useTranslation } from "react-i18next";
 import {Context} from '../../App';
 import {Logged} from '../../App';
 
+
 export default function Header(){
     const data =  useContext(Context); //logged user data
     const [user,setUser] = useContext(Context);
     const [logged, setLogged] = useContext(Logged);
     const [t, i18n] = useTranslation("global");
 
-    const handleLogout = (()=> {
+    const handleLogout = (async ()=> {
         window.localStorage.removeItem('userlogged');
         window.localStorage.removeItem('usertoken');
         setUser('nouser');
         setLogged(false);
+        await logOut();
     })
     const handleLogin = (()=> {
     })
@@ -36,5 +38,4 @@ export default function Header(){
             </nav>
         </div>
     )
-
 }

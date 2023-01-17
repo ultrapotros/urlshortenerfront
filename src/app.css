@@ -85,35 +85,14 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-
 }
-.image{
-  height: 900px;
-  object-fit: fill;
-}
-.buttons{
-  display: inline;
-
-}
-.popup-content {
-  margin: auto;
-  background: rgb(255, 255, 255);
-  width: 50%;
-  padding: 5px;
-}
-.popup-arrow {
-  color: rgb(255, 255, 255);
-}
-[role='tooltip'].popup-content {
-  width: 200px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
-}
-
-.popup-overlay {
-  background: rgba(0, 0, 0, 0.5);
-}
-[data-popup='tooltip'].popup-overlay {
-  background: transparent;
+.top-background {
+  z-index: -1;
+  position: absolute;
+  width: 100%;
+  min-height: 100vh;
+  background-color:var(--main-blue);
+  clip-path: polygon( 0 0, 100% 0, 100% calc(100vh - 30vh),0 calc(100vh - 20vh));
 }
 
 @media only screen and (max-width: 667px) {

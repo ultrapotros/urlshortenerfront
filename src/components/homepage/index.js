@@ -1,11 +1,17 @@
 import './homepage.css'
 import postNewUrl from '../helpers/postNewUrl';
 import { useContext, useState} from 'react';
+import { postNewUrl } from '../helpers/mongodb';
+import { isSession } from '../helpers/cognito';
+import { useContext, useEffect , useState} from 'react';
 import  CopyToClipboard  from 'react-copy-to-clipboard';
 import { Context } from '../../App';
 import { Logged } from '../../App';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
+import {
+  ContentCopyRounded
+} from "@mui/icons-material";
 
 export default function HomePage() {
   const [user, setUser] = useContext(Context);

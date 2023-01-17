@@ -1,7 +1,7 @@
 {
   "name": "message-app",
   "version": "0.1.0",
-  "private": true,
+  "description": "Url shortener with register option to manage your urls",
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -10,6 +10,9 @@
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "amplify": "^0.0.11",
+    "aws-amplify": "^4.3.21",
+    "aws-jwt-verify": "^3.0.0",
     "axios": "^0.26.0",
     "boostrap": "^2.0.0",
     "bootstrap": "^3.4.1",
@@ -17,7 +20,6 @@
     "i18next": "^21.6.16",
     "md5": "^2.3.0",
     "react": "^17.0.2",
-    "react-bootstrap": "^2.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.29.0",
@@ -25,7 +27,6 @@
     "react-offcanvas": "^0.4.0",
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.0",
-    "reactjs-popup": "^2.0.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
