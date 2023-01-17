@@ -55,7 +55,7 @@
         "alreadyshortened":"You have already shortened that url",
         "short-exists":"That url already exists",
         "short-modified":"Modified",
-        "shortened":"This is your url shortened: https://www.",
+        "shortened":"This is your url shortened:",
         "deleted":"Entry deleted",
         "nouser":"User not registered",
         "wrongpassword":"Wrong password",

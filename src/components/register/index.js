@@ -3,10 +3,18 @@ import React, { useRef, useState , useEffect } from 'react';
 import { registerUser , confirmUser } from '../helpers/cognito';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import postNewUser from '../helpers/postNewUser';
+import postLogin from '../helpers/postLogin';
 import { useTranslation } from "react-i18next";
+import md5 from 'md5';
+import axios from "axios";
 
-
-export default function FormRegister() { 
+/**
+ * Component for the registration of new users
+ * @params theme
+ * @returns component react
+ */
+export default function FormRegister(props) {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
     const [ usertoConfirm, setUsertoConfirm ] = useState();
     const [ confirmModal, setConfirmModal ] = useState(false);
@@ -20,49 +28,37 @@ export default function FormRegister() {
     const code = useRef({});
     email.current = watch("email", "");
     const onSubmit = async (data) => {
-        signUp(data);
+        userData.username = data.username;
+        userData.password = md5(data.password);
+        userData.email = data.email
+        await postNewUser(userData)
+
+            .then ((newData) => {
+
+                if (newData.data.message === 'Email already registered') {
+                    alert('Email already registered');
+                    return;
+                }
+                if (newData.data.message === 'User already exists') {
+                    alert('User already exists');
+                    return;
+                }
+                if (newData.status === 200 ) {
+                    postLogin(userData.username, userData.password)
+                    .then((newData) => {
+                            const userContext = {user:newData.data[1], token:newData.data[0]}
+                            setUser(userContext);
+                            window.localStorage.setItem('userlogged',JSON.stringify(newData.data[1]));  
+                            window.localStorage.setItem('usertoken',JSON.stringify(newData.data[0]));  
+                            setLogged(true);
+                            navigate('/');
+                        })
+                }
+
+            })
+
     };
 
-    // post to register a new user
-    async function signUp(newuser) {
-        try {
-            const res = await registerUser(newuser);
-            if (res === "err") {
-                setErrorModal(true);
-                setErrorMessage(t("modals.user_exists"))
-            }
-            else if (res === 'success'){
-                setUsertoConfirm(newuser.username);
-                setConfirmModal(true);
-            }
-            else {
-                setErrorModal(true);
-                setErrorMessage(t("modals.somewrong"))
-            }
-        } catch (error) {
-            setErrorModal(true);
-            setErrorMessage(t("modals.somewrong"))
-        }
-      }
-
-    async function confirmSignUp() { //function to send cofimration code
-        try {
-            const res = await confirmUser(usertoConfirm, code.current.value);
-            if (res === "wrong code") { //getting wrong code error
-                setErrorModal(true)
-                setErrorMessage(t("modals.wrongcode"))
-            }
-            else {
-                navigate(`/login`)   
-            }
-          } catch (error) { //getting any other problem
-            setErrorModal(true);
-            setErrorMessage(t("modals.somewrong"))
-          }
-    }
-
-    useEffect(() => {
-      }, [])
 
     return (<div className='container'>
         <form className='form--login' onSubmit={handleSubmit(onSubmit)} >
@@ -101,8 +97,8 @@ export default function FormRegister() {
                         maxLength: { value: 20, message: `${t("formserrors.maxlength")}20` }
                     })} />
             {errors.password && <div className='form--message-errors'><p >{errors.password.message}</p></div>}
-
             {/* Password Repeat*/}
+
             <input spellCheck="false" className='form--input' type="password" placeholder={t("form.passwordcheck")} {
                 ...register("passwordRepeat",
                     {
@@ -112,34 +108,9 @@ export default function FormRegister() {
                     })} />
             {errors.passwordRepeat && <div className='form--message-errors'><p >{errors.passwordRepeat.message}</p></div>}
 
-            {/* language*/}            
-            <select className='form--input' placeholder={t("form.language")} {
-                ...register("language", {
-                    required: { value: true, message: `${t("formserrors.required")}` }
-                })}>
-                <option value='es'>{t("form.language_es")}</option>
-                <option value='en'>{t("form.language_en")}</option>
-            </select>                     
-            {errors.language && <div className='form--message-errors'><p>{errors.language.message}</p></div>}
-
-            <input type="submit" className='simple--button' value= {t("buttons.send")}/>
+            <input type="submit" className='login--button' value= {t("buttons.send")}/>
         </form>
-        <button className='login--button nbutton' onClick={() => navigate('/')}>{t("buttons.back")}</button>
-
-        {/* modal to introduce confirmation code */}
-        {confirmModal && 
-            <div className="registermodals">
-                <label className="modals-text">{t("modals.confirmation_code")}</label>
-                <input type="text" className="form-control" placeholder={t("form.confirmation_code")} ref ={code}/>
-                <button type="button" className="simple--button" onClick={confirmSignUp}>{t("buttons.send")}</button>
-            </div>}
-
-        {/* modal to show errors */}
-        {errorModal && 
-            <div className="errors-modal">
-                <span className="modals-text">{errorMessage}</span>
-                <button type="button" className="form-button simple--button" onClick={(()=>setErrorModal(false))}>{t("buttons.close")}</button>
-            </div>}
+        <button className='login--button login--navigation' onClick={() => navigate('/')}>{t("buttons.back")}</button>
     </div>
     );
 }

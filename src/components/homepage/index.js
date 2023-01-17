@@ -1,4 +1,6 @@
 import './homepage.css'
+import postNewUrl from '../helpers/postNewUrl';
+import { useContext, useState} from 'react';
 import { postNewUrl } from '../helpers/mongodb';
 import { isSession } from '../helpers/cognito';
 import { useContext, useEffect , useState} from 'react';
@@ -17,43 +19,32 @@ export default function HomePage() {
   const [viewmodal, setViewmodal] = useState(false);
   const [created, setCreated] = useState(false);
   const [shorturl, setShorturl] = useState('');
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm({defaultValues:{url:''}});
   const [t] = useTranslation("global");
 
-
   const handleNewUrl = async (data)=> {
+
     const body = {                      
-        username: logged? user.username : '',
+        username: logged? user.user.username : '',
         url: data.url
     }
-    data.url ='';
-    await postNewUrl(body) 
-    .then ((newData) => {
-            setShorturl(newData.data.shorturl);
-            setViewmodal(true);
-            setCreated(true);
-            reset();
-        })
-        .catch((err) => {
-          setViewmodal(true)
-        })
+    const response = await postNewUrl(body)
+    console.log(response)
+    setShorturl(`https://urlshortenerfront-cjv1m61m4-ultrapotros.vercel.app/yus/${response.data.shorturl}`);
+    setViewmodal(true);
+    if (response.data.createdAt)setCreated(true);
+    console.log(shorturl)
+    /* if (response.data.message==='Successfully shortened')setCreated(true); */
+    
   }
-
-async function iscurrentSession() {
-  try {
-      const userdatas = await isSession();//gets logged users data if logged
-      setUser({username:userdatas.username, email:userdatas.attributes.email})
-      setLogged(true);
-  } catch (error) {
-      setUser({})
+  const handleModal =  ()=> {
+    setViewmodal(false);
+    reset({
+      url: ''
+    })
   }
-}
-
-useEffect(() => {
-  iscurrentSession();
-}, [])
-console.log('rendering')
-return (
+ 
+  return (
     
     <div className='container'>
       <main className='main'>
@@ -66,28 +57,26 @@ return (
         }
 
         <div className='form'>
-          <form className='card'onSubmit={handleSubmit(handleNewUrl)}>
-            <input type="text" className='input' placeholder='URL' {
+          <form className='card' onSubmit={handleSubmit(handleNewUrl)}>
+            <input /* ref={inputRef} */ type="text" className='input' placeholder='URL' {
               ...register("url",
               {
-                defaultValue: "",
                 required: { value: true, message: `${t("formserrors.required")}` },
-                pattern: { value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, message: `${t("formserrors.wrongformat")}` }
-                /* regular expression to check url */
+/*                 pattern: { value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, message: `${t("formserrors.wrongformat")}` }
+ */                /* para comenzar la expresión regular usamos /^ y para terminarla $/ */
               })} />
                         {errors.url && <div className='form--message-errors'><p>{errors.url.message}</p></div>}
-            <input className="login--button login--navigation nbutton" type="submit" value={t("buttons.send")}/>
+            <input className="nbutton" type="submit" value={t("buttons.send")}/>
           </form>
-          {viewmodal && <div className="modal confirm-modal">
-            <div className="confirm-modal">  {created?             
-              <CopyToClipboard text={`https://www.yus.${shorturl}`} onCopy={() => setViewmodal(false)}>
-                <div className="confirm-modal"><span className="copy>">
-                  {t("modals.shortened")}{`yus.${shorturl}`}</span>
-                <ContentCopyRounded className="simple--button"/>
-               </div>
+          {viewmodal && <div className="modal">
+              {created?             
+              <CopyToClipboard text={shorturl} onCopy={handleModal}>
+                <div className='copy-div'><p className="copy>">{t("modals.shortened")}{shorturl}</p>
+                <button className="copy">{t("buttons.copy")}</button></div>
               </CopyToClipboard> : 
-              <span>{t("modals.alreadyshortened")}</span>}
-              <button className="modal-button simple--button" onClick={()=>setViewmodal(false)}>x</button></div>
+              <p className="modal-content">{t("modals.alreadyshortened")}</p>}
+              <div /* className="modal-button" */><button className="modal-button" onClick={handleModal}>x</button></div>
+               {/* <div className="modal-button" ><button className="modal-button" onClick={()=>setViewmodal(false)}>x</button></div>  */}
           </div>}
         </div>
       </main>

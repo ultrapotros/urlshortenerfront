@@ -8,32 +8,31 @@ import Profile from './components/profile/index';
 import HomePage from './components/homepage';
 import Redirect from './components/redirect';
 import Urls from './components/urlslist'
-import RequestconfirmCode from './components/requestConfirmCode';
-import ChangePassword from './components/changePassword';
-import { Auth } from 'aws-amplify';
+import ChangePassword from './components/change-pasword/index';
 
-export const Context = createContext(null);
+export const Context = createContext({});
 export const Logged = createContext(false);
 
 export default function App(){
-    const [user, setUser] = useState('nouser');
+    const [user, setUser] = useState({});
     const [logged, setLogged] = useState(false);
-    async function iscurrentSession() {
-        try {
-            await Auth.currentSession();//checks there's a valid user logged and if its session is still valid
-            const userdatas = await Auth.currentUserInfo();//gets logged users data
-            setUser({...userdatas.attributes})
-            setLogged(true);
-        } catch (error) {
-            setUser({})
-        }
-      }
+
+
+
     useEffect(() => {
-        iscurrentSession();
+        const loggedUserJSON = window.localStorage.getItem('userlogged');
+        const userTokenJSON = window.localStorage.getItem('usertoken');
+        if (loggedUserJSON) {
+            const user= JSON.parse(loggedUserJSON);
+            const token= JSON.parse(userTokenJSON);
+            setUser({user,token});
+            setLogged(true);
+        }            
     }, [])
 
     return(<> 
             <div className="top-background"></div>
+           {/*  <div className="bottom-background"></div> */}
             <Context.Provider value={[user,setUser]}>
                 <Logged.Provider value={[logged, setLogged]}>
                     <Router>
@@ -42,16 +41,15 @@ export default function App(){
                             <Route exact path="/" element={<HomePage />} />
                             <Route path="/register" element={<FormRegister />} />
                             <Route path="/login" element={<FormLogin />} />
-                            <Route path="/:username/profile" element={<Profile/>} />
-                            <Route path="/:username/urls" element={<Urls/>} />
-                            <Route path="/:shortid" element={<Redirect/>} />
-                            <Route path="/requestcode" element={<RequestconfirmCode/>} />
-                            <Route path="/changepassword" element={<ChangePassword />} />
+                            <Route path="/profile/:username" element={<Profile/>} />
+                            <Route path="/urls/:username" element={<Urls/>} />
+                            <Route path="/resetpassword/:token" element={<ChangePassword />} />
+                            <Route path="/yus/:shortid" element={<Redirect/>} />
                         </Routes>
                     </Router>
                 </Logged.Provider>
             </Context.Provider>
-        {/* } */}
+
         </>
     )
     }
