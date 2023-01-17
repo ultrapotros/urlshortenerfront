@@ -56,8 +56,8 @@ export default function HomePage() {
               ...register("url",
               {
                 required: { value: true, message: `${t("formserrors.required")}` },
-                pattern: { value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, message: `${t("formserrors.wrongformat")}` }
-                /* para comenzar la expresión regular usamos /^ y para terminarla $/ */
+/*                 pattern: { value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, message: `${t("formserrors.wrongformat")}` }
+ */                /* para comenzar la expresión regular usamos /^ y para terminarla $/ */
               })} />
                         {errors.url && <div className='form--message-errors'><p>{errors.url.message}</p></div>}
             <input className="nbutton" type="submit" value={t("buttons.send")}/>
