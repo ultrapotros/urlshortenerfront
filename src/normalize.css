@@ -228,7 +228,8 @@
   [type="button"]:-moz-focusring,
   [type="reset"]:-moz-focusring,
   [type="submit"]:-moz-focusring {
-    outline: 1px dotted ButtonText;
+    /* outline: 1px dotted ButtonText; */
+    outline-color: transparent;
   }
   
   /**
@@ -401,11 +402,11 @@
   .nbutton{
     position: relative;
     display: inline-block;
-  /*   margin: 15px; */
     margin: .3rem;
-    padding: 12px 27px;
+   /*  padding: 12px 27px; */
+    padding: .8em 1.6em;
+    border-radius: 1em;
     text-align: center;
-    /* font-size: 16px; */
     letter-spacing: 1px;
     text-decoration: none;
     color: var(--color1);
@@ -426,6 +427,7 @@
     width: 0;
     height: 0;
     transition: .5s;
+    border-radius: 1.1em;
 }
 
 .nbutton::after {
