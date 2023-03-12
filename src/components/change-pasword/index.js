@@ -1,26 +1,17 @@
 
-import React, { useContext , useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Context } from '../../App';
-import { Logged } from '../../App';
 import { useNavigate, useParams } from 'react-router-dom';
-import postLogin from '../helpers/postLogin';
+/* import postLogin from '../helpers/postLogin'; */
 import { useTranslation } from "react-i18next";
-import md5 from 'md5';
+/* import md5 from 'md5'; */
 import './change-password.css';
 import resetPassword from '../helpers/resetPassword';
 
-/**
- * Component for the registration of new users
- * @params theme
- * @returns component react
- */
+
 export default function ChangePassword() {
-    // login or new user discriminator
     const { token }= useParams();
     const { register, handleSubmit, watch, clearErrors, formState: { errors } } = useForm();
-    const [ user, setUser ] = useContext(Context);
-    const [ logged, setLogged ] = useContext(Logged);
     const [ viewModal, setViewModal ] = useState(false);
     const [ errorMessage, setErrorMessage ] = useState("");
     const password = useRef({});
@@ -30,14 +21,21 @@ export default function ChangePassword() {
 
     const onSubmit = async (data) => {
 
-        console.log(data.password)
-        console.log(token)
         const response = await resetPassword(data.password, token)
-        console.log(response)
-
+        if (response.status === 200) {
+            setErrorMessage(response.data.message)
+            setViewModal(true);
+        }
 
 
     };
+
+    const closeModal = ()=> {
+        setErrorMessage(false);
+        if (errorMessage === 'Password updated successfully') {
+            navigate('/login'); /* we navigate to login  if pasword has been updated */
+        }
+    }
 
 
     return (<div className='container'>
@@ -67,7 +65,8 @@ export default function ChangePassword() {
         </form>
         {viewModal && <div className="login-modal">
             <span className="login-modal--message">{errorMessage}</span>
-            <div onClick={()=>setViewModal(false)} className="login-modal--close">x</div>
+            <div onClick={closeModal} className="login-modal--close">x</div>
+            {/* <div onClick={()=>setViewModal(false)} className="login-modal--close">x</div> */}
         </div>}
     </div>
     );

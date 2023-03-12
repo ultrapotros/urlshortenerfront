@@ -23,7 +23,7 @@ i18next.init({
 
 ReactDOM.render(
   <I18nextProvider i18n={i18next}>
-      <App />
+    <App />
   </I18nextProvider>
-      ,  document.getElementById('root')
+  , document.getElementById('root')
 );

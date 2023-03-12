@@ -6,7 +6,6 @@ import {Context} from '../../App';
 import {Logged} from '../../App';
 
 export default function Header(){
-    const data =  useContext(Context); //logged user data
     const [user,setUser] = useContext(Context);
     const [logged, setLogged] = useContext(Logged);
     const [t, i18n] = useTranslation("global");
@@ -25,7 +24,7 @@ export default function Header(){
     return(
         <div className='top-header'>
             <nav className='header-nav'>
-                {logged ? <NavLink className='name' to ={`/profile/${user.username}`}>{t("header.profile")}</NavLink> : 
+                {logged ? <NavLink className='name' to ={`/profile/${user.user.username}`}>{t("header.profile")}</NavLink> : 
                 <NavLink className='name' to ={`/register`}>{t("header.register")}</NavLink>}
                 {logged ? <NavLink className='logout' to ={`/`} onClick = {handleLogout}>{t("header.logout")}</NavLink> : 
                 <NavLink className='logout' to ={`/login`} /* onClick = {handleLogin} */>{t("header.login")}</NavLink>}

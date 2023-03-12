@@ -64,6 +64,7 @@
         "copied":"Copied",
         "confirmation_code":"Introduce the confirmation code received in your email",
         "user_exists":"Already exists an user with that username",
-        "not_found":"Not found"
+        "not_found":"Not found",
+        "forgotten_password": "Password forgotten?"
     }
 }
