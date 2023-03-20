@@ -7,7 +7,8 @@
     },
     "shortener": {
         "titlelogged": "Introduce la url a recortar",
-        "titleunlogged": "Registrate y gestiona tus urls"
+        "titleunlogged": "Registrate y gestiona tus urls",
+        "format":"Formato: www.tuurl.com"
     },
     "personalmain": {
         "title":"Mis Datos",

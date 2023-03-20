@@ -427,7 +427,7 @@
     width: 0;
     height: 0;
     transition: .5s;
-    border-radius: 1.1em;
+    border-radius: inherit;
 }
 
 .nbutton::after {

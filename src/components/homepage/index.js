@@ -45,8 +45,9 @@ export default function HomePage() {
         </h1>
 
         {logged ? <p className='description'>{t("shortener.titlelogged")}</p> :
-          <p className='description'>{t("shortener.titleunlogged")}</p>
+          <><p className='description'>{t("shortener.titleunlogged")}</p><p className='description'>{t("shortener.titlelogged")}</p></> 
         }
+        <p className='description'>{t("shortener.format")}</p> 
 
         <div className='form'>
           <form className='card' onSubmit={handleSubmit(handleNewUrl)}>
@@ -54,6 +55,7 @@ export default function HomePage() {
               ...register("url",
                 {
                   required: { value: true, message: `${t("formserrors.required")}` },
+                  /* pattern: { value: /^([/www/i])\.([^ \t\r\n\f])\.([^ \t\r\n\f])$/, message: `${t("formserrors.wrongformat")}` } */
                   pattern: { value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/, message: `${t("formserrors.wrongformat")}` }
                   /* para comenzar la expresión regular usamos /^ y para terminarla $/ */
                 })} />
