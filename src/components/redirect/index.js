@@ -4,10 +4,12 @@ import getLongUrl from "../helpers/getLongUrl";
 
 export default function Redirect() {
   const { shortid } = useParams();
+  console.log(shortid)
   const handleredirect = async () => {
     await getLongUrl(shortid)
       .then((data) => {
         const newurl = data.data;
+        console.log(newurl);
         window.location.href = `${newurl}/`
       })
       .catch((error) => {
