@@ -9,8 +9,7 @@ export default function Redirect() {
     await getLongUrl(shortid)
       .then((data) => {
         const newurl = data.data;
-        console.log(newurl);
-        window.location.href = `${newurl}/`
+        window.location.href = newurl
       })
       .catch((error) => {
         console.log(error)
