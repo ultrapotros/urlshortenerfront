@@ -1,7 +1,8 @@
 
-import React, { useRef, useState , useEffect } from 'react';
-import { registerUser , confirmUser } from '../helpers/cognito';
+import React, { useRef, useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import { Context } from '../../App';
+import { Logged } from '../../App';
 import { useNavigate } from 'react-router-dom';
 import postNewUser from '../helpers/postNewUser';
 import postLogin from '../helpers/postLogin';
@@ -16,24 +17,22 @@ import axios from "axios";
  */
 export default function FormRegister(props) {
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const [ usertoConfirm, setUsertoConfirm ] = useState();
-    const [ confirmModal, setConfirmModal ] = useState(false);
-    const [ errorModal, setErrorModal ] = useState(false);
-    const [ errorMessage, setErrorMessage ] = useState(false);
+    const [user, setUser] = useContext(Context);
+    const [logged, setLogged] = useContext(Logged);
     const navigate = useNavigate();
     const [t] = useTranslation("global");
     const password = useRef({}); // to compare and confirm password and email
     password.current = watch("password", "");
     const email = useRef({});
-    const code = useRef({});
     email.current = watch("email", "");
+    let userData = { username: '', premium: false, password: '', email: '' };
     const onSubmit = async (data) => {
         userData.username = data.username;
         userData.password = md5(data.password);
         userData.email = data.email
         await postNewUser(userData)
 
-            .then ((newData) => {
+            .then((newData) => {
 
                 if (newData.data.message === 'Email already registered') {
                     alert('Email already registered');
@@ -43,13 +42,13 @@ export default function FormRegister(props) {
                     alert('User already exists');
                     return;
                 }
-                if (newData.status === 200 ) {
+                if (newData.status === 200) {
                     postLogin(userData.username, userData.password)
-                    .then((newData) => {
-                            const userContext = {user:newData.data[1], token:newData.data[0]}
+                        .then((newData) => {
+                            const userContext = { user: newData.data[1], token: newData.data[0] }
                             setUser(userContext);
-                            window.localStorage.setItem('userlogged',JSON.stringify(newData.data[1]));  
-                            window.localStorage.setItem('usertoken',JSON.stringify(newData.data[0]));  
+                            window.localStorage.setItem('userlogged', JSON.stringify(newData.data[1]));
+                            window.localStorage.setItem('usertoken', JSON.stringify(newData.data[0]));
                             setLogged(true);
                             navigate('/');
                         })
@@ -69,13 +68,13 @@ export default function FormRegister(props) {
                         required: { value: true, message: `${t("formserrors.required")}` },
                         maxLength: { value: 20, message: `${t("formserrors.maxlength")}20` }
                     })} />
-                    {errors.username && <div className='form--message-errors'><p>{errors.username.message}</p></div>}
+            {errors.username && <div className='form--message-errors'><p>{errors.username.message}</p></div>}
             {/* Email */}
             <input spellCheck="false" className='form--input' type="text" placeholder="Email" {
                 ...register("email",
                     {
                         required: { value: true, message: `${t("formserrors.required")}` },
-                        pattern: { value: /^\w+([\.\+\-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/, message: `${t("formserrors.wrongformat")}`}
+                        pattern: { value: /^\w+([\.\+\-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/, message: `${t("formserrors.wrongformat")}` }
                     })} />
             {errors.email && <div className='form--message-errors'><p >{errors.email.message}</p></div>}
             {/* Repeat Email */}
@@ -84,7 +83,7 @@ export default function FormRegister(props) {
                     {
                         required: { value: true, message: `${t("formserrors.required")}` },
                         validate: value =>
-                        value === email.current || `${t("formserrors.emailnotmatch")}`
+                            value === email.current || `${t("formserrors.emailnotmatch")}`
                     })} />
             {errors.emailrepeated && <div className='form--message-errors'><p >{errors.emailrepeated.message}</p></div>}
 
@@ -108,7 +107,7 @@ export default function FormRegister(props) {
                     })} />
             {errors.passwordRepeat && <div className='form--message-errors'><p >{errors.passwordRepeat.message}</p></div>}
 
-            <input type="submit" className='login--button' value= {t("buttons.send")}/>
+            <input type="submit" className='login--button' value={t("buttons.send")} />
         </form>
         <button className='login--button login--navigation' onClick={() => navigate('/')}>{t("buttons.back")}</button>
     </div>

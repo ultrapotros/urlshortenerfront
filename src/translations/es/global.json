@@ -7,7 +7,8 @@
     },
     "shortener": {
         "titlelogged": "Introduce la url a recortar",
-        "titleunlogged": "Registrate y gestiona tus urls"
+        "titleunlogged": "Registrate y gestiona tus urls",
+        "format":"Introduce tu URL completa, incluyendo http o https"
     },
     "personalmain": {
         "title":"Mis Datos",
@@ -64,6 +65,7 @@
         "copied":"Copiado",
         "confirmation_code":"Introduce el código de confirmación recibido en tu email",
         "user_exists":"Ya existe un usuario con ese nombre",
-        "not_found":"url no encontrada"
+        "not_found":"url no encontrada",
+        "forgotten_password": "¿Contraseña olvidada?"
     }
 }
