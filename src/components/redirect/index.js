@@ -8,8 +8,8 @@ export default function Redirect() {
   const handleredirect = async () => {
     await getLongUrl(shortid)
       .then((data) => {
-        const newurl = data.data;
-        window.location.href = newurl
+        const newurl = data.data.split('://');
+        window.location.href = newurl[1]
       })
       .catch((error) => {
         console.log(error)
