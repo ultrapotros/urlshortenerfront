@@ -10,7 +10,8 @@ export default function Redirect() {
       .then((data) => {
         const newurl = data.data;
         const originalUrl = newurl.split('://');
-        window.location.href = originalUrl[1];
+        window.location.assign(originalUrl)
+        /* window.location.href = originalUrl[1]; */
       })
       .catch((error) => {
         console.log(error)
