@@ -17,10 +17,10 @@ export default function HomePage() {
   const [t] = useTranslation("global");
 
   const handleNewUrl = async (data) => {
-
+    const url_to_save = data.url.split('://')
     const body = {
       username: logged ? user.user.username : '',
-      url: data.url
+      url: url_to_save[1]
     }
     const response = await postNewUrl(body)
     setShorturl(`https://urlshortenerfront-cjv1m61m4-ultrapotros.vercel.app/yus/${response.data.shorturl}`);
