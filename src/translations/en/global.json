@@ -8,7 +8,7 @@
     "shortener": {
         "titlelogged": "Introduce the url to short",
         "titleunlogged": "Sign in and manage your urls",
-        "format":"Introduce your complete URL, including http or https"
+        "format":"Formato www.your url, don't incluede http or https"
     },
     "personalmain": {
         "title":"My Data",
